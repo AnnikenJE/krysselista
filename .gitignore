@@ -42,3 +42,4 @@ firebaseConfig.js
 GoogleService-Info.plist
 ios/
 android/
+.vscode/
