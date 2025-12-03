@@ -1,6 +1,7 @@
 import { useAuthSession } from "@/providers/authenticationContext";
 import React, { useState } from "react";
 import {
+  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -94,11 +95,18 @@ const Authentication = () => {
           <View style={styles.buttonContainer}>
             <Pressable
               style={styles.primaryButton}
-              onPress={() => {
+              onPress={async () => {
                 if (isSignUp) {
-                  createUser(userEmail, password, userName);
+                  await createUser(userEmail, password, userName);
                 } else {
-                  signIn(userEmail, password);
+                  try {
+                    await signIn(userEmail, password);
+                  } catch {
+                    Alert.alert(
+                      "Feil kredentialer",
+                      "Vennligst sjekk e-post og passord"
+                    );
+                  }
                 }
               }}
             >
@@ -128,7 +136,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     width: "100%",
   },
-  
+
   // Buttons
   buttonContainer: {
     width: "110%",
