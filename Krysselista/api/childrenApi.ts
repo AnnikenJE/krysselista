@@ -5,9 +5,10 @@
 // Imports
 
 import {
+  arrayRemove,
   collection,
+  deleteDoc,
   doc,
-  getDoc,
   getDocs,
   setDoc,
   updateDoc,
@@ -23,7 +24,7 @@ export async function createChild(childId: string, child: ChildData) {
     await setDoc(doc(db, "children", childId), child);
     console.log("Children saved with id:", childId);
   } catch (error) {
-    console.log("Error! Could not create child: ", error);
+    console.error("Error! Could not create child: ", error);
   }
 }
 
@@ -39,25 +40,44 @@ export async function getAllChildrenById() {
         } as ChildData)
     );
 
+    console.log("All children successfully fetched from firebase.");
     return children;
   } catch (error) {
-    console.log("Error! Could not get all children: ", error);
+    console.error("Error! Could not get all children: ", error);
     return [];
   }
 }
 
 // Delete child
-export async function deleteChild() {
+export async function deleteChild(childID: string) {
   try {
+    const childRef = doc(db, "children", childID);
+    await updateDoc(childRef, {
+      children: arrayRemove(childID),
+    });
+
+    await deleteDoc(doc(db, "children", childID));
+    console.log("Successfully deleted child.");
   } catch (error) {
-    console.log("Error! Could not delete child: ", error);
+    console.error("Error! Could not delete child: ", error);
   }
 }
 
-// Update child
-export async function updateChild() {
+// Toggle child presence
+export async function toggleChildPresence(
+  childID: string,
+  currentValue: boolean
+) {
   try {
+    const value = !currentValue;
+    const childRef = doc(db, "children", childID);
+    await updateDoc(childRef, {
+      isPresent: value,
+    });
+
+    console.log("Updated child presence: ", value);
+    return value;
   } catch (error) {
-    console.log("Error! Could not update child: ", error);
+    console.error("Error! Could not update child: ", error);
   }
 }

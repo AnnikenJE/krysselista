@@ -8,7 +8,7 @@
 export async function createUser() {
   try {
   } catch (error) {
-    console.log("Error! Could not create user: ", error);
+    console.error("Error! Could not create user: ", error);
   }
 }
 
@@ -16,7 +16,7 @@ export async function createUser() {
 export async function getUser() {
   try {
   } catch (error) {
-    console.log("Error! Could not get user: ", error);
+    console.error("Error! Could not get user: ", error);
   }
 }
 
@@ -24,7 +24,7 @@ export async function getUser() {
 export async function getUserChildren() {
   try {
   } catch (error) {
-    console.log("Error! Could not get the users children: ", error);
+    console.error("Error! Could not get the users children: ", error);
   }
 }
 
@@ -32,6 +32,6 @@ export async function getUserChildren() {
 export async function updateUser() {
   try {
   } catch (error) {
-    console.log("Error! Could not update user: ", error);
+    console.error("Error! Could not update user: ", error);
   }
 }
