@@ -3,7 +3,7 @@
 // User API connection to firebase.
 
 import { UserData } from "@/interfaces/user";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
 // Functions
@@ -12,7 +12,7 @@ import { db } from "@/firebaseConfig";
 export async function createUser(userID: string, user: UserData) {
   try {
     await setDoc(doc(db, "users", userID), user);
-    console.error("New user created with ID: ", userID);
+    console.log("New user created with ID: ", userID);
   } catch (error) {
     console.error("Error! Could not create user: ", error);
   }
@@ -23,6 +23,7 @@ export async function getUser(userId: string) {
   try {
     const query = await getDoc(doc(db, "users", userId));
     const user = query.data() as UserData;
+
     console.log("User fetched from firebase with id: ", userId);
     return user;
   } catch (error) {
@@ -31,24 +32,23 @@ export async function getUser(userId: string) {
   }
 }
 
-// Get all children connected to one parent (user)
-export async function getUserChildren() {
-  try {
-    const query = await getDocs(collection(db, "users"));
-    const targetUsersChildren = query.docs.filter((doc) => )
-
-  } catch (error) {
-    console.error("Error! Could not get the users children: ", error);
-    return [];
-  }
-}
-
 // Update user
-export async function updateUser() {
+export async function updateUser(
+  userId: string,
+  email: string,
+  phone: string,
+  childId: string
+) {
   try {
+    const userRef = doc(db, "users", userId);
 
+    await updateDoc(userRef, {
+      email: email,
+      phone: phone,
+      children: arrayUnion(childId),
+    });
 
-
+    console.log("Successfully updated ");
   } catch (error) {
     console.error("Error! Could not update user: ", error);
   }
