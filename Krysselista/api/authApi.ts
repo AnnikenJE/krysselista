@@ -14,11 +14,9 @@ import {
 // Login with with user email and password
 export async function signIn(email: string, password: string) {
   await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("User signed in: ", userCredential.user.email);
-    })
-    .catch((error) => console.log("Error! Cannot login: ", error));
-}
+    }
 
 // Logout current user
 export async function signOut() {
