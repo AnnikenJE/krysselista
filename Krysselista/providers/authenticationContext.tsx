@@ -38,7 +38,7 @@ export function useAuthSession() {
 export function AuthSessionProvider({ children }: { children: ReactNode }) {
   const [userSession, setUserSession] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [userAuthSession, setUserAuthSesseion] = useState<User | null>(null);
+  const [userAuthSession, setUserAuthSession] = useState<User | null>(null);
 
   const router = useRouter();
 
@@ -47,10 +47,10 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       if (user) {
         setUserSession(user.displayName);
-        setUserAuthSesseion(user);
+        setUserAuthSession(user);
       } else {
         setUserSession(null);
-        setUserAuthSesseion(null);
+        setUserAuthSession(null);
       }
       setIsLoading(false);
     });
@@ -62,7 +62,7 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
   }, [isLoading, router, userSession]);
 
   return (
-    <AuthContext.Provider
+    <AuthContext
       value={{
         signIn: (userEmail: string, password: string) => {
           signIn(userEmail, password);
@@ -87,6 +87,6 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthContext>
   );
 }
