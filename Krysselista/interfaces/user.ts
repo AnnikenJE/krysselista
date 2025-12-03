@@ -8,7 +8,7 @@ export interface UserData {
   id: string;
   name: string;
   email: string;
-  adress: string;
+  address: string;
   phone: string;
   isEmployee: boolean;
   children: ChildData[];
