@@ -72,7 +72,7 @@ const Authentication = () => {
             />
           </View>
 
-          {/* Buttontoggle between signup and registration */}
+          {/* Buttontogg3le between signup and registration */}
           <Pressable
             style={{
               paddingTop: 24,

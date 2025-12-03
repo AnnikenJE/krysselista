@@ -12,7 +12,7 @@ import {
 
 // Definition of the AuthContextType
 type AuthContextType = {
-  signIn: (userEmail: string, password: string) => void;
+  signIn: (userEmail: string, password: string) => Promise<void>;
   signOut: VoidFunction;
   createUser: (email: string, password: string, displayName: string) => void;
   userNameSession?: string | null;
@@ -64,8 +64,8 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext
       value={{
-        signIn: (userEmail: string, password: string) => {
-          signIn(userEmail, password);
+        signIn: async (userEmail: string, password: string) => {
+          await signIn(userEmail, password);
         },
         signOut: () => {
           signOut();
