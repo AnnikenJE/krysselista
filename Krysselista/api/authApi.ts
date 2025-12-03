@@ -29,6 +29,7 @@ export async function signOut() {
 // Create new user with email and password
 export async function createUser(email: string, password: string) {
   try {
+    
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
       email,
