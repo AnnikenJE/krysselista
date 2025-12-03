@@ -2,6 +2,21 @@
 //
 // Settings page
 
+import { StyleSheet, Text, View } from "react-native";
+
 export default function SettingsScreen() {
-    return null;
+  return (
+    <View style={style.container}>
+      <Text>Innstillinger</Text>
+    </View>
+  );
 }
+
+// Midlertidig
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

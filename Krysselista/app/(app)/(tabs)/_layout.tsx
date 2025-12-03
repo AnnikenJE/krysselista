@@ -9,9 +9,10 @@ import { Colors } from "@/theme/colors";
 export default function TabBar() {
 	return (
 		<Tabs
+        // Tab bar styling
 			screenOptions={{
 				headerShown: false,
-                tabBarActiveTintColor: Colors.primaryPurple,
+                tabBarActiveTintColor: Colors.variationPurple,
                 tabBarLabelStyle: {
                     fontSize: 16,
                 },
@@ -20,6 +21,7 @@ export default function TabBar() {
                 },
 			}}
 		>
+            {/* Home tab */}
 			<Tabs.Screen
 				name="index"
 				options={{
@@ -30,6 +32,7 @@ export default function TabBar() {
 				}}
 			/>
             
+            {/* Profile tab */}
 			<Tabs.Screen
 				name="profile"
 				options={{
@@ -40,6 +43,7 @@ export default function TabBar() {
 				}}
 			/>
 
+            {/* All children tab for employees */}
 			{/* TODO: If else isEmployee = true */}
 			<Tabs.Screen
 				name="children"
@@ -51,6 +55,7 @@ export default function TabBar() {
 				}}
 			/>
 
+            {/* Settings tab */}
 			<Tabs.Screen
 				name="settings"
 				options={{

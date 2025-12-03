@@ -1,6 +1,7 @@
 //
 //
 // User interface for parents and employees
+
 import { ChildData } from "./child";
 
 export interface UserData {
