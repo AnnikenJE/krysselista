@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 // Main Authentication for login and registration
-//State varables
+// State variables
 const Authentication = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -72,7 +72,7 @@ const Authentication = () => {
             />
           </View>
 
-          {/* Buttontogg3le between signup and registration */}
+          {/* Button toggle between signup and registration */}
           <Pressable
             style={{
               paddingTop: 24,
@@ -119,6 +119,7 @@ const Authentication = () => {
 
 export default Authentication;
 
+// Styles
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -127,6 +128,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     width: "100%",
   },
+  
+  // Buttons
   buttonContainer: {
     width: "110%",
     paddingHorizontal: 16,
@@ -150,6 +153,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "gray",
   },
+
+  // Text fields
   textFieldContainer: {
     width: "100%",
     paddingTop: 16,

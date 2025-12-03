@@ -10,8 +10,8 @@ export const Colors = {
 
   // Gray
   lightGray: "#E5E7EB", // Border on searchbar etc.
-  mediumGray: "#99A1AF", // Ikoner for hvite tekst bokser  f.eks på søk
-  darkGray: "#717182", // Ikoner for hvite tekst bokser  f.eks på søk logg inn
+  mediumGray: "#99A1AF", // Ikoner for hvite tekst bokser f.eks på søk
+  darkGray: "#717182", // Ikoner for hvite tekst bokser f.eks på søk logg inn
 
   // Variations of primary colors
   variationPurple: "#9747FF", // Chosen navigaion bar item

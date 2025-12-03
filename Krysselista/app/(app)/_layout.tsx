@@ -1,7 +1,6 @@
 //
 //
 // App layout with stack navigator
-// TODO: Stack screen
 
 import { Stack, Redirect } from "expo-router";
 import { View, Text} from "react-native";
