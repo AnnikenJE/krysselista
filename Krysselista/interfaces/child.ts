@@ -6,6 +6,6 @@ export interface ChildData {
     id: string; 
     name: string;
     birthday: Date;
-    healthInfo: string[];
+    healthInfo?: string[];
     isPresent: boolean;
 }
