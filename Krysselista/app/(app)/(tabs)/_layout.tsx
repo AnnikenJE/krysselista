@@ -3,13 +3,21 @@
 // Tab layout
 
 import { Tabs } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+import { Feather} from "@expo/vector-icons";
+import { Colors } from "@/theme/colors";
 
 export default function TabBar() {
 	return (
 		<Tabs
 			screenOptions={{
 				headerShown: false,
+                tabBarActiveTintColor: Colors.primaryPurple,
+                tabBarLabelStyle: {
+                    fontSize: 16,
+                },
+                tabBarStyle: {
+                    paddingTop: 4
+                },
 			}}
 		>
 			<Tabs.Screen
@@ -17,7 +25,7 @@ export default function TabBar() {
 				options={{
 					title: "Hjem",
 					tabBarIcon: ({ color }) => (
-						<FontAwesome name="home" size={18} color={color} />
+						<Feather name="home" size={24} color={color} />
 					),
 				}}
 			/>
@@ -27,7 +35,7 @@ export default function TabBar() {
 				options={{
 					title: "Mitt barn",
 					tabBarIcon: ({ color }) => (
-						<FontAwesome name="user" size={18} color={color} />
+						<Feather name="user" size={24} color={color} />
 					),
 				}}
 			/>
@@ -38,7 +46,7 @@ export default function TabBar() {
 				options={{
 					title: "Alle barn",
 					tabBarIcon: ({ color }) => (
-						<FontAwesome name="users" size={18} color={color} />
+						<Feather name="users" size={24} color={color} />
 					),
 				}}
 			/>
@@ -48,7 +56,7 @@ export default function TabBar() {
 				options={{
 					title: "Innstillinger",
 					tabBarIcon: ({ color }) => (
-						<FontAwesome name="gear" size={18} color={color} />
+						<Feather name="settings" size={24} color={color} />
 					),
 				}}
 			/>
