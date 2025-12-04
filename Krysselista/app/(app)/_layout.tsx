@@ -27,7 +27,7 @@ if (isLoading) {
       <Stack.Screen
         name="(tabs)"
         options={{
-          headerhown: false,
+          headerShown: false,
         }}
       />
     </Stack>
