@@ -10,8 +10,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  setDoc,
+  addDoc,
   updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { ChildData } from "@/interfaces/child";
@@ -19,10 +20,15 @@ import { ChildData } from "@/interfaces/child";
 // Functions
 
 // Create child
-export async function createChild(childId: string, child: ChildData) {
+export async function createChild(userdId: string, child: ChildData) {
   try {
-    await setDoc(doc(db, "children", childId), child);
-    console.log("Children saved with id:", childId);
+    const childRef = await addDoc(collection(db, "children"), child);
+    const userRef = doc(db, "users", userdId);
+    await updateDoc(userRef, {
+      children: arrayUnion(childRef.id),
+    });
+
+    console.log("Children saved with id:", childRef.id);
   } catch (error) {
     console.error("Error! Could not create child: ", error);
   }
@@ -49,12 +55,10 @@ export async function getAllChildrenById() {
 }
 
 // Delete child
-export async function deleteChild(childID: string) {
+export async function deleteChild(childID: string, userID: string) {
   try {
-    const childRef = doc(db, "children", childID);
-    await updateDoc(childRef, {
-      children: arrayRemove(childID),
-    });
+    const userRef = doc(db, "users", userID);
+    await updateDoc(userRef, { children: arrayRemove(childID) });
 
     await deleteDoc(doc(db, "children", childID));
     console.log("Successfully deleted child.");

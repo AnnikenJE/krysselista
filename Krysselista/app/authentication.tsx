@@ -103,8 +103,7 @@ const Authentication = () => {
                     await signIn(userEmail, password);
                   } catch {
                     Alert.alert(
-                      "Feil kredentialer",
-                      "Vennligst sjekk e-post og passord"
+                      "Feil kredentialer, Vennligst sjekk e-post og passord"
                     );
                   }
                 }

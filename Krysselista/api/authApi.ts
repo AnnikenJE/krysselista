@@ -10,13 +10,16 @@ import {
   User,
 } from "firebase/auth";
 
-
 // Login with with user email and password
 export async function signIn(email: string, password: string) {
-  await signInWithEmailAndPassword(auth, email, password)
-  const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("User signed in: ", userCredential.user.email);
-    }
+  await signInWithEmailAndPassword(auth, email, password);
+  const userCredential = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+  console.log("User signed in: ", userCredential.user.email);
+}
 
 // Logout current user
 export async function signOut() {
@@ -27,7 +30,6 @@ export async function signOut() {
 // Create new user with email and password
 export async function createUser(email: string, password: string) {
   try {
-    
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
       email,
