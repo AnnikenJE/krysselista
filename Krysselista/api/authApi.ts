@@ -2,13 +2,14 @@
 //
 //  authApi.ts - Api components for authentication
 
-import { auth } from "@/firebaseConfig";
+import { auth, db } from "@/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
   User,
 } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 // Login with with user email and password
 export async function signIn(email: string, password: string) {
@@ -28,15 +29,29 @@ export async function signOut() {
 }
 
 // Create new user with email and password
-export async function createUser(email: string, password: string) {
+export async function createUser(
+  email: string,
+  password: string,
+  adress: string,
+  phone: string,
+  userType: "employee" | "parent"
+) {
   try {
     const userCredentials = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+    const user = userCredentials.user;
 
-    return userCredentials.user;
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      adress,
+      phone,
+      userType,
+    });
+
+    return user;
   } catch (error) {
     console.error("Error! Could not create user: ", error);
     return null;
