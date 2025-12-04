@@ -14,7 +14,14 @@ import {
 type AuthContextType = {
   signIn: (userEmail: string, password: string) => Promise<void>;
   signOut: VoidFunction;
-  createUser: (email: string, password: string, displayName: string) => void;
+  createUser: (
+    email: string,
+    password: string,
+    displayName: string,
+    adress: string,
+    phone: string,
+    isEmployee: boolean
+  ) => void;
   userNameSession?: string | null;
   isLoading: boolean;
   user: User | null;
@@ -73,9 +80,18 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
         createUser: async (
           email: string,
           password: string,
-          displayName: string
+          displayName: string,
+          adress: string,
+          phone: string,
+          isEmployee: boolean
         ) => {
-          const newUser = await createUser(email, password);
+          const newUser = await createUser(
+            email,
+            password,
+            adress,
+            phone,
+            isEmployee ? "employee" : "parent"
+          );
           if (newUser) {
             await setUserDisplayName(newUser, displayName);
             setUserSession(displayName);

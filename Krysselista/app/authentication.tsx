@@ -1,5 +1,6 @@
 import { useAuthSession } from "@/providers/authenticationContext";
-import React, { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { use, useState } from "react";
 import {
   Alert,
   Keyboard,
@@ -19,7 +20,10 @@ const Authentication = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [adress, setAdress] = useState("");
+  const [phone, setPhone] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
+  const [userType, setUserType] = useState<"employee" | "parent" | null>(null);
 
   const { signIn, createUser } = useAuthSession();
 
@@ -30,95 +34,171 @@ const Authentication = () => {
       keyboardVerticalOffset={-50}
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
       }}
     >
       {/* Dismisses the keyboard when clicking outside the keybaord area */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View style={styles.mainContainer}>
-          {isSignUp && (
-            <View style={styles.textFieldContainer}>
-              <Text>Brukernavn</Text>
-              <TextInput
-                value={userName}
-                onChangeText={setUserName}
-                style={styles.textField}
-                placeholder="Brukernavn"
-              />
+        <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.headerText}>Krysselista </Text>
             </View>
-          )}
-
-          {/* Email field */}
-          <View style={styles.textFieldContainer}>
-            <Text>E-post</Text>
-            <TextInput
-              value={userEmail}
-              onChangeText={setUserEmail}
-              style={styles.textField}
-              placeholder="E-post"
-              keyboardType="email-address"
-            />
-          </View>
-
-          {/* Password input field */}
-          <View style={styles.textFieldContainer}>
-            <Text>Passord</Text>
-            <TextInput
-              value={password}
-              secureTextEntry={true}
-              onChangeText={setPassword}
-              style={styles.textField}
-              placeholder="Passord"
-            />
-          </View>
-
-          {/* Button toggle between signup and registration */}
-          <Pressable
-            style={{
-              paddingTop: 24,
-            }}
-            onPress={() => {
-              setIsSignUp(!isSignUp);
-            }}
-          >
-            <Text
+            <View style={styles.mainContainer}>
+              {isSignUp && (
+            <View
               style={{
-                textDecorationLine: "underline",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 16,
+                marginBottom: 24,
               }}
             >
-              {isSignUp ? "Innlogging" : "Ny bruker?     Register her!"}
-            </Text>
-          </Pressable>
+              <Pressable
+                style={[
+                  styles.userTypeButton,
+                  userType === "employee" && styles.userTypeButtonSelected,
+                ]}
+                onPress={() => setUserType("employee")}
+              >
+                <Text style={styles.userTypeText}>Ansatt</Text>
+              </Pressable>
 
-          {/* Submit button */}
-          <View style={styles.buttonContainer}>
-            <Pressable
-              style={styles.primaryButton}
-              onPress={async () => {
-                if (isSignUp) {
-                  await createUser(userEmail, password, userName);
-                } else {
-                  try {
-                    await signIn(userEmail, password);
-                  } catch {
-                    Alert.alert(
-                      "Feil kredentialer, Vennligst sjekk e-post og passord"
-                    );
-                  }
-                }
-              }}
-            >
-              <Text
+              <Pressable
+                style={[
+                  styles.userTypeButton,
+                  userType === "parent" && styles.userTypeButtonSelected,
+                ]}
+                onPress={() => setUserType("parent")}
+              >
+                <Text style={styles.userTypeText}>Foresatt</Text>
+              </Pressable>
+            </View>
+              )}
+
+
+              {isSignUp && (
+                <View style={styles.textFieldContainer}>
+                  <Text>Brukernavn</Text>
+                  <TextInput
+                    value={userName}
+                    onChangeText={setUserName}
+                    style={styles.textField}
+                    placeholder="Brukernavn"
+                  />
+                </View>
+              )}
+
+              {/* Email field */}
+              <View style={styles.textFieldContainer}>
+                <Text>E-post</Text>
+                <TextInput
+                  value={userEmail}
+                  onChangeText={setUserEmail}
+                  style={styles.textField}
+                  placeholder="E-post"
+                  keyboardType="email-address"
+                />
+              </View>
+
+              {/* Password input field */}
+              <View style={styles.textFieldContainer}>
+                <Text>Passord</Text>
+                <TextInput
+                  value={password}
+                  secureTextEntry={true}
+                  onChangeText={setPassword}
+                  style={styles.textField}
+                  placeholder="Passord"
+                />
+              </View>
+
+              {/* Adress input field */}
+              {isSignUp && (
+                <View style={styles.textFieldContainer}>
+                  <Text>Adresse</Text>
+                  <TextInput
+                    value={adress}
+                    secureTextEntry={false}
+                    onChangeText={setAdress}
+                    style={styles.textField}
+                    placeholder="Adresse"
+                  />
+                </View>
+              )}
+
+              {/* Phone input field */}
+              {isSignUp && (
+                <View style={styles.textFieldContainer}>
+                  <Text>Telefon</Text>
+                  <TextInput
+                    value={phone}
+                    secureTextEntry={false}
+                    onChangeText={setPhone}
+                    style={styles.textField}
+                    placeholder="Telefon"
+                  />
+                </View>
+              )}
+
+              {/* Button toggle between signup and registration */}
+              <Pressable
                 style={{
-                  color: "black",
+                  paddingTop: 24,
+                }}
+                onPress={() => {
+                  setIsSignUp(!isSignUp);
                 }}
               >
-                {isSignUp ? "Registrer bruker" : "Bekreft"}
-              </Text>
-            </Pressable>
+                <Text
+                  style={{
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  {isSignUp ? "Innlogging" : "Ny bruker?     Register her!"}
+                </Text>
+              </Pressable>
+
+              {/* Submit button */}
+              <View style={styles.buttonContainer}>
+                <Pressable
+                  style={styles.primaryButton}
+                  onPress={async () => {
+                    if (isSignUp) {
+                      if(!userType) {
+                        Alert.alert("Vennligst velg brukertype");
+                        return;
+                      }
+                      await createUser(
+                        userEmail,
+                        password,
+                        userName,
+                        adress,
+                        phone,
+                        userType === "employee"
+                      );
+                    } else {
+                      try {
+                        await signIn(userEmail, password);
+                      } catch {
+                        Alert.alert(
+                          "Feil kredentialer, Vennligst sjekk e-post og passord"
+                        );
+                      }
+                    }
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: "black",
+                    }}
+                  >
+                    {isSignUp ? "Registrer bruker" : "Bekreft"}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
           </View>
-        </View>
+        </LinearGradient>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
@@ -126,7 +206,7 @@ const Authentication = () => {
 
 export default Authentication;
 
-// Styles
+// Styling for the different components
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -136,7 +216,19 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 
-  // Buttons
+  titleContainer: {
+    marginBottom: 2,
+    marginTop: 55,
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 32,
+    fontWeight: "600",
+    color: "#745FEF",
+    textAlign: "center",
+    fontFamily: Platform.OS === "ios" ? "SF Pro" : "sans-serif",
+  },
+
   buttonContainer: {
     width: "110%",
     paddingHorizontal: 16,
@@ -148,7 +240,7 @@ const styles = StyleSheet.create({
   primaryButton: {
     paddingHorizontal: 14,
     paddingVertical: 14,
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: "#e1e0e0ff",
     justifyContent: "center",
     alignItems: "center",
@@ -161,7 +253,6 @@ const styles = StyleSheet.create({
     borderColor: "gray",
   },
 
-  // Text fields
   textFieldContainer: {
     width: "100%",
     paddingTop: 16,
@@ -171,7 +262,20 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 6,
     borderColor: "gray",
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: "#f5f5f5",
+  },
+  userTypeButton: {
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  userTypeButtonSelected: {
+    backgroundColor: "#745FEF",
+  },
+  userTypeText: {
+    color: "#000",
   },
 });
