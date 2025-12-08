@@ -1,16 +1,13 @@
 import { useAuthSession } from "@/providers/authenticationContext";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import {
   Alert,
-  Keyboard,
-  KeyboardAvoidingView,
   Platform,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
