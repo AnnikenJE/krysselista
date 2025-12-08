@@ -29,22 +29,22 @@ const Authentication = () => {
 
   return (
     // Prevents keyboard going over textfields
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={-50}
-      style={{
-        flex: 1,
-      }}
-    >
-      {/* Dismisses the keyboard when clicking outside the keybaord area */}
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
-          <View style={{ flex: 1 }}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.headerText}>Krysselista </Text>
-            </View>
-            <View style={styles.mainContainer}>
-              {isSignUp && (
+    // <KeyboardAvoidingView
+    //   behavior={Platform.OS === "ios" ? "padding" : "height"}
+    //   keyboardVerticalOffset={-50}
+    //   style={{
+    //     flex: 1,
+    //   }}
+    // >
+    // {/* Dismisses the keyboard when clicking outside the keybaord area */}
+    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.headerText}>Krysselista </Text>
+        </View>
+        <View style={styles.mainContainer}>
+          {isSignUp && (
             <View
               style={{
                 flexDirection: "row",
@@ -73,134 +73,133 @@ const Authentication = () => {
                 <Text style={styles.userTypeText}>Foresatt</Text>
               </Pressable>
             </View>
-              )}
+          )}
 
+          {isSignUp && (
+            <View style={styles.textFieldContainer}>
+              <Text>Brukernavn</Text>
+              <TextInput
+                value={userName}
+                onChangeText={setUserName}
+                style={styles.textField}
+                placeholder="Brukernavn"
+              />
+            </View>
+          )}
 
-              {isSignUp && (
-                <View style={styles.textFieldContainer}>
-                  <Text>Brukernavn</Text>
-                  <TextInput
-                    value={userName}
-                    onChangeText={setUserName}
-                    style={styles.textField}
-                    placeholder="Brukernavn"
-                  />
-                </View>
-              )}
+          {/* Email field */}
+          <View style={styles.textFieldContainer}>
+            <Text>E-post</Text>
+            <TextInput
+              value={userEmail}
+              onChangeText={setUserEmail}
+              style={styles.textField}
+              placeholder="E-post"
+              keyboardType="email-address"
+            />
+          </View>
 
-              {/* Email field */}
-              <View style={styles.textFieldContainer}>
-                <Text>E-post</Text>
-                <TextInput
-                  value={userEmail}
-                  onChangeText={setUserEmail}
-                  style={styles.textField}
-                  placeholder="E-post"
-                  keyboardType="email-address"
-                />
-              </View>
+          {/* Password input field */}
+          <View style={styles.textFieldContainer}>
+            <Text>Passord</Text>
+            <TextInput
+              value={password}
+              secureTextEntry={true}
+              onChangeText={setPassword}
+              style={styles.textField}
+              placeholder="Passord"
+            />
+          </View>
 
-              {/* Password input field */}
-              <View style={styles.textFieldContainer}>
-                <Text>Passord</Text>
-                <TextInput
-                  value={password}
-                  secureTextEntry={true}
-                  onChangeText={setPassword}
-                  style={styles.textField}
-                  placeholder="Passord"
-                />
-              </View>
+          {/* Adress input field */}
+          {isSignUp && (
+            <View style={styles.textFieldContainer}>
+              <Text>Adresse</Text>
+              <TextInput
+                value={adress}
+                secureTextEntry={false}
+                onChangeText={setAdress}
+                style={styles.textField}
+                placeholder="Adresse"
+              />
+            </View>
+          )}
 
-              {/* Adress input field */}
-              {isSignUp && (
-                <View style={styles.textFieldContainer}>
-                  <Text>Adresse</Text>
-                  <TextInput
-                    value={adress}
-                    secureTextEntry={false}
-                    onChangeText={setAdress}
-                    style={styles.textField}
-                    placeholder="Adresse"
-                  />
-                </View>
-              )}
+          {/* Phone input field */}
+          {isSignUp && (
+            <View style={styles.textFieldContainer}>
+              <Text>Telefon</Text>
+              <TextInput
+                value={phone}
+                secureTextEntry={false}
+                onChangeText={setPhone}
+                style={styles.textField}
+                placeholder="Telefon"
+              />
+            </View>
+          )}
 
-              {/* Phone input field */}
-              {isSignUp && (
-                <View style={styles.textFieldContainer}>
-                  <Text>Telefon</Text>
-                  <TextInput
-                    value={phone}
-                    secureTextEntry={false}
-                    onChangeText={setPhone}
-                    style={styles.textField}
-                    placeholder="Telefon"
-                  />
-                </View>
-              )}
+          {/* Button toggle between signup and registration */}
+          <Pressable
+            style={{
+              paddingTop: 24,
+            }}
+            onPress={() => {
+              setIsSignUp(!isSignUp);
+            }}
+          >
+            <Text
+              style={{
+                textDecorationLine: "underline",
+              }}
+            >
+              {isSignUp ? "Innlogging" : "Ny bruker?     Register her!"}
+            </Text>
+          </Pressable>
 
-              {/* Button toggle between signup and registration */}
-              <Pressable
+          {/* Submit button */}
+          <View style={styles.buttonContainer}>
+            <Pressable
+              style={styles.primaryButton}
+              onPress={async () => {
+                if (isSignUp) {
+                  if (!userType) {
+                    Alert.alert("Vennligst velg brukertype");
+                    return;
+                  }
+                  await createUser(
+                    userEmail,
+                    password,
+                    userName,
+                    adress,
+                    phone,
+                    userType === "employee"
+                  );
+                } else {
+                  try {
+                    await signIn(userEmail, password);
+                  } catch {
+                    Alert.alert(
+                      "Feil kredentialer, Vennligst sjekk e-post og passord"
+                    );
+                  }
+                }
+              }}
+            >
+              <Text
                 style={{
-                  paddingTop: 24,
-                }}
-                onPress={() => {
-                  setIsSignUp(!isSignUp);
+                  color: "black",
                 }}
               >
-                <Text
-                  style={{
-                    textDecorationLine: "underline",
-                  }}
-                >
-                  {isSignUp ? "Innlogging" : "Ny bruker?     Register her!"}
-                </Text>
-              </Pressable>
-
-              {/* Submit button */}
-              <View style={styles.buttonContainer}>
-                <Pressable
-                  style={styles.primaryButton}
-                  onPress={async () => {
-                    if (isSignUp) {
-                      if(!userType) {
-                        Alert.alert("Vennligst velg brukertype");
-                        return;
-                      }
-                      await createUser(
-                        userEmail,
-                        password,
-                        userName,
-                        adress,
-                        phone,
-                        userType === "employee"
-                      );
-                    } else {
-                      try {
-                        await signIn(userEmail, password);
-                      } catch {
-                        Alert.alert(
-                          "Feil kredentialer, Vennligst sjekk e-post og passord"
-                        );
-                      }
-                    }
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "black",
-                    }}
-                  >
-                    {isSignUp ? "Registrer bruker" : "Bekreft"}
-                  </Text>
-                </Pressable>
-              </View>
-            </View>
+                {isSignUp ? "Registrer bruker" : "Bekreft"}
+              </Text>
+            </Pressable>
           </View>
-        </LinearGradient>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </View>
+      </View>
+    </LinearGradient>
+    //   </TouchableWithoutFeedback>
+    // </KeyboardAvoidingView>
   );
 };
 
