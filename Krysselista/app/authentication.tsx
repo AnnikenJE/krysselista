@@ -30,14 +30,15 @@ const Authentication = () => {
 
   return (
     // Prevents keyboard going over textfields
-    <KeyboardAvoidingView
+ /*   <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={-50}
       style={{
         flex: 1,
       }}
     >
-      {/* Dismisses the keyboard when clicking outside the keybaord area */}
+      */
+      // Dismiss keyboard when clicking outside of textfields
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
           <View style={{ flex: 1 }}>
@@ -205,7 +206,7 @@ const Authentication = () => {
           </View>
         </LinearGradient>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    //</KeyboardAvoidingView>
   );
 };
 
