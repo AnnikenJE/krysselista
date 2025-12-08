@@ -1,4 +1,5 @@
 import { useAuthSession } from "@/providers/authenticationContext";
+import { FontSizes } from "@/theme/fontSize";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { use, useState } from "react";
 import {
@@ -45,36 +46,39 @@ const Authentication = () => {
             </View>
             <View style={styles.mainContainer}>
               {isSignUp && (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 16,
-                marginBottom: 24,
-              }}
-            >
-              <Pressable
-                style={[
-                  styles.userTypeButton,
-                  userType === "employee" && styles.userTypeButtonSelected,
-                ]}
-                onPress={() => setUserType("employee")}
-              >
-                <Text style={styles.userTypeText}>Ansatt</Text>
-              </Pressable>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: 16,
+                    marginBottom: 24,
+                  }}
+                >
+                  <Pressable
+                    style={[
+                      styles.userTypeButton,
+                      userType === "employee"
+                        ? styles.employeeSelected
+                        : styles.employeeDefault,
+                    ]}
+                    onPress={() => setUserType("employee")}
+                  >
+                    <Text style={styles.userTypeText}>Ansatt</Text>
+                  </Pressable>
 
-              <Pressable
-                style={[
-                  styles.userTypeButton,
-                  userType === "parent" && styles.userTypeButtonSelected,
-                ]}
-                onPress={() => setUserType("parent")}
-              >
-                <Text style={styles.userTypeText}>Foresatt</Text>
-              </Pressable>
-            </View>
+                  <Pressable
+                    style={[
+                      styles.userTypeButton,
+                      userType === "parent"
+                        ? styles.parentSelected
+                        : styles.parentDefault,
+                    ]}
+                    onPress={() => setUserType("parent")}
+                  >
+                    <Text style={styles.userTypeText}>Foresatt</Text>
+                  </Pressable>
+                </View>
               )}
-
 
               {isSignUp && (
                 <View style={styles.textFieldContainer}>
@@ -151,10 +155,10 @@ const Authentication = () => {
               >
                 <Text
                   style={{
-                    textDecorationLine: "underline",
+                    textDecorationLine: "underline", fontSize: 24, fontFamily: Platform.OS === "ios" ? "SF Pro" : "sans-serif",
                   }}
                 >
-                  {isSignUp ? "Innlogging" : "Ny bruker?     Register her!"}
+                  {isSignUp ? "Log inn" : "Register bruker"}
                 </Text>
               </Pressable>
 
@@ -164,7 +168,7 @@ const Authentication = () => {
                   style={styles.primaryButton}
                   onPress={async () => {
                     if (isSignUp) {
-                      if(!userType) {
+                      if (!userType) {
                         Alert.alert("Vennligst velg brukertype");
                         return;
                       }
@@ -190,6 +194,7 @@ const Authentication = () => {
                   <Text
                     style={{
                       color: "black",
+                      fontSize: 24,
                     }}
                   >
                     {isSignUp ? "Registrer bruker" : "Bekreft"}
@@ -218,7 +223,7 @@ const styles = StyleSheet.create({
 
   titleContainer: {
     marginBottom: 2,
-    marginTop: 55,
+    marginTop: 95,
     alignItems: "center",
   },
   headerText: {
@@ -241,7 +246,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 14,
     borderRadius: 10,
-    backgroundColor: "#e1e0e0ff",
+    backgroundColor: "#F9FAFB",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -258,7 +263,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   textField: {
-    borderWidth: 0.25,
+    borderWidth: 0.165,
     padding: 10,
     marginTop: 6,
     borderColor: "gray",
@@ -266,16 +271,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
   },
   userTypeButton: {
-    paddingVertical: 16,
+    paddingVertical: 24,
     paddingHorizontal: 24,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#ccc",
   },
-  userTypeButtonSelected: {
-    backgroundColor: "#745FEF",
+  employeeDefault: {
+    backgroundColor: "#a2a1ffff",
+  },
+
+  employeeSelected: {
+    backgroundColor: "#7e67ffff",
+  },
+  parentDefault: {
+    backgroundColor: "#9ed9f9ff",
+  },
+
+  parentSelected: {
+    backgroundColor: "#38BDF8",
   },
   userTypeText: {
-    color: "#000",
+    color: "#ffffffff",
+    fontSize: 24,
   },
 });
