@@ -1,22 +1,8 @@
 //
 //
-// Home screen
+// Empty index file to prevent automatic redirection to /homeParent or /homeEmployee
+// as this is handled in the _layout.tsx file.
 
-import { StyleSheet, Text, View } from "react-native";
-
-export default function HomeScreen() {
-  return (
-    <View style={style.container}>
-      <Text>Hjem</Text>
-    </View>
-  );
+export default function TabsIndex() {
+  return null;
 }
-
-// Midlertidig
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
