@@ -241,6 +241,7 @@ const styles = StyleSheet.create({
     gap: 16,
     position: "absolute",
     bottom: 20,
+    marginBottom: 24,
   },
   primaryButton: {
     paddingHorizontal: 14,
