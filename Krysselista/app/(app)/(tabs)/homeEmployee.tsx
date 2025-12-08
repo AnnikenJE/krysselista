@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from "react-native";
 export default function HomeScreenEmployee() {
   return (
     <View style={style.container}>
+      <Text>Home employee</Text>
       <Text>Hjem ansatt</Text>
     </View>
   );
@@ -19,4 +20,4 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-});
+})

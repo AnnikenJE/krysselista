@@ -5,7 +5,8 @@
 export interface ChildData {
     id: string; 
     name: string;
-    birthday: Date; // If problems appear, then this can be the problem.
-    healthInfo: string[];
+    birthday: string; // Change to date if we have time.
+    healthInfo: string;
+    acitivityLog: Date[];
     isPresent: boolean;
 }
