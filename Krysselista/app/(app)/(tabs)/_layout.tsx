@@ -3,36 +3,60 @@
 // Tab layout
 
 import { Tabs } from "expo-router";
-import { Feather} from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import { Colors } from "@/theme/colors";
+import { useAuthSession } from "@/providers/authenticationContext";
 
 export default function TabBar() {
+	const { user } = useAuthSession();
+	const isEmployee = Boolean(user?.isEmployee);
+
 	return (
 		<Tabs
-        // Tab bar styling
+			// Tab bar styling
 			screenOptions={{
 				headerShown: false,
-                tabBarActiveTintColor: Colors.variationPurple,
-                tabBarLabelStyle: {
-                    fontSize: 16,
-                },
-                tabBarStyle: {
-                    paddingTop: 4
-                },
+				tabBarActiveTintColor: Colors.variationPurple,
+				tabBarLabelStyle: {
+					fontSize: 16,
+				},
+				tabBarStyle: {
+					paddingTop: 4,
+				},
 			}}
 		>
-            {/* Home tab */}
+			{/* Index tab is supposed to be hidden. */}
 			<Tabs.Screen
 				name="index"
+				options={{
+					href: null,
+				}}
+			/>
+
+			{/* Home tabs */}
+			<Tabs.Screen
+				name="homeEmployee"
 				options={{
 					title: "Hjem",
 					tabBarIcon: ({ color }) => (
 						<Feather name="home" size={24} color={color} />
 					),
+					href: isEmployee ? undefined : null,
 				}}
 			/>
-            
-            {/* Profile tab */}
+
+			<Tabs.Screen
+				name="homeParent"
+				options={{
+					title: "Hjem",
+					tabBarIcon: ({ color }) => (
+						<Feather name="home" size={24} color={color} />
+					),
+					href: !isEmployee ? undefined : null,
+				}}
+			/>
+
+			{/* Profile tabs */}
 			<Tabs.Screen
 				name="profile"
 				options={{
@@ -40,11 +64,12 @@ export default function TabBar() {
 					tabBarIcon: ({ color }) => (
 						<Feather name="user" size={24} color={color} />
 					),
+					href: !isEmployee ? undefined : null,
 				}}
 			/>
 
-            {/* All children tab for employees */}
-			{/* TODO: If else isEmployee = true */}
+			{/* All children tab for employees */}
+
 			<Tabs.Screen
 				name="children"
 				options={{
@@ -52,10 +77,11 @@ export default function TabBar() {
 					tabBarIcon: ({ color }) => (
 						<Feather name="users" size={24} color={color} />
 					),
+					href: isEmployee ? undefined : null,
 				}}
 			/>
 
-            {/* Settings tab */}
+			{/* Settings tab */}
 			<Tabs.Screen
 				name="settings"
 				options={{

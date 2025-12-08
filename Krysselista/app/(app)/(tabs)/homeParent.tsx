@@ -36,14 +36,14 @@ export default function HomeScreenParent() {
       isPresent: false,
     };
 
-    if (user?.uid) {
-      createChild(user?.uid, child);
+    if (user?.id) {
+      createChild(user?.id, child);
     } else {
       console.error(
         "Error! User id does not exist. This error should never happen."
       );
     }
-    console.log("HER:", user?.uid);
+    console.log("HER:", user?.id);
   }
 
   return (
