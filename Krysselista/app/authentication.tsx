@@ -172,6 +172,7 @@ const Authentication = () => {
 											 return;
 											 }
 											await createUser(
+                        userName,
 												userEmail,
 												password,
 												userName,

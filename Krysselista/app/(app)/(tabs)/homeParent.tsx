@@ -5,13 +5,17 @@
 // Sources:
 // uuid: https://dev.to/tincastle/uuid-libraries-for-react-native-3mg
 
+//TODO: Design when designers says its OK
+
 // Imports
 import { createChild } from "@/api/childrenApi";
+import { getUser } from "@/api/userApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
-import { useState } from "react";
+import Feather from "@expo/vector-icons/Feather";
+import { useEffect, useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -31,6 +35,17 @@ export default function HomeScreenParent() {
   const [name, setName] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [healthInfo, setHealthInfo] = useState<string>("Ingen");
+
+  // useEffect
+  //   useEffect(() => {
+  //     if (user?.id) {
+  //       getUser(user?.id);
+  //     } else {
+  //       console.error(
+  //         "Error! User id does not exist. This error should never happen."
+  //       );
+  //     }
+  //   }, [user?.id]);
 
   // Functions
   function addNewChild() {
@@ -55,21 +70,34 @@ export default function HomeScreenParent() {
     }
   }
 
+  function checkIfParentsGotChild() {
+    if (user?.children.length === 0) {
+      return <Text> Vennligst registrer barn.</Text>;
+    } else {
+      return <Text>Har barn</Text>;
+    }
+  }
+
   // Return
   return (
     <View style={style.container}>
-      <Text>Home parent</Text>
+      <Text>Hei {user?.name}</Text>
+      {checkIfParentsGotChild()}
+
       <Pressable onPress={() => setIsModalVisible(true)}>
         <Text>Registrer barn</Text>
       </Pressable>
 
-      {/* Modal - Can be placed into its own file  */}
+      {/* Modal - Can be placed into its own file if we got time */}
       <Modal transparent visible={isModalVisible} animationType="slide">
         <View
           style={[style.container, { backgroundColor: Colors.primaryWhite }]}
         >
           <Pressable onPress={() => setIsModalVisible(false)}>
-            <Text>Tilbake</Text>
+            <View>
+              <Feather name="arrow-left" size={24} color="black" />
+              <Text>Tilbake</Text>
+            </View>
           </Pressable>
           <View style={style.textFieldContainer}>
             <Text style={style.headingText}>Registrer ditt barn</Text>
@@ -101,6 +129,7 @@ export default function HomeScreenParent() {
                 } else {
                   addNewChild();
                   setIsModalVisible(false);
+                  checkIfParentsGotChild();
                 }
               }}
             >
@@ -124,7 +153,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginTop: 6,
-    borderColor: Colors.darkGray,
+    borderColor: Colors.lightGray,
     borderRadius: 10,
     backgroundColor: Colors.primaryWhite,
   },
@@ -135,5 +164,5 @@ const style = StyleSheet.create({
   headingText: {
     color: Colors.primaryPurple,
     fontSize: FontSizes.H1,
-  }
+  },
 });
