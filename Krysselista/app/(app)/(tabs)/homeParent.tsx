@@ -9,13 +9,12 @@
 
 // Imports
 import { createChild } from "@/api/childrenApi";
-import { getUser } from "@/api/userApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -88,7 +87,7 @@ export default function HomeScreenParent() {
         <Text>Registrer barn</Text>
       </Pressable>
 
-      {/* Modal - Can be placed into its own file if we got time */}
+      {/* Modal - TODO:Can be placed into its own file if we got time */}
       <Modal transparent visible={isModalVisible} animationType="slide">
         <View
           style={[style.container, { backgroundColor: Colors.primaryWhite }]}
