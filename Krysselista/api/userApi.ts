@@ -9,6 +9,7 @@ import { db } from "@/firebaseConfig";
 // Functions
 
 // Create user
+// TODO: Is not used in authAPI.
 export async function createUser(userID: string, user: UserData) {
   try {
     await setDoc(doc(db, "users", userID), user);
