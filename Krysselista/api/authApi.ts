@@ -30,6 +30,7 @@ export async function signOut() {
 
 // Create new user with email and password
 export async function createUser(
+	name: string,
 	email: string,
 	password: string,
 	address: string,
@@ -46,7 +47,7 @@ export async function createUser(
 
 		await setDoc(doc(db, "users", user.uid), {
 			id: user.uid,
-			name: "",
+			name,
 			email,
 			address,
 			phone,

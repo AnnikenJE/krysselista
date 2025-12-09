@@ -21,6 +21,7 @@ type AuthContextType = {
 	signIn: (userEmail: string, password: string) => Promise<void>;
 	signOut: VoidFunction;
 	createUser: (
+		name: string,
 		email: string,
 		password: string,
 		displayName: string,
@@ -128,6 +129,7 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
 					signOut();
 				},
 				createUser: async (
+					name: string,
 					email: string,
 					password: string,
 					displayName: string,
@@ -136,6 +138,7 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
 					isEmployee: boolean
 				) => {
 					const newUser = await createUser(
+						name,
 						email,
 						password,
 						address,
