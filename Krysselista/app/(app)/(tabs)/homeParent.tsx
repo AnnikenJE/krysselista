@@ -8,16 +8,13 @@
 //TODO: Design when designers says its OK
 
 // Imports
-import {
-  createChild,
-  getChildrenByUserId,
-} from "@/api/childrenApi";
+import { createChild, getChildrenByUserId } from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Pressable,
   StyleSheet,
