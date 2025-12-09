@@ -1,4 +1,5 @@
 import { useAuthSession } from "@/providers/authenticationContext";
+import { Colors } from "@/theme/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
@@ -23,19 +24,20 @@ const Authentication = () => {
 	const [address, setAddress] = useState("");
 	const [phone, setPhone] = useState("");
 	const [isSignUp, setIsSignUp] = useState(false);
-	const [isEmployee, setIsEmployee] = useState(false);
+	const [isEmployee, setIsEmployee] = useState<boolean | null>(null);
 	const { signIn, createUser } = useAuthSession();
 
 	return (
 		// Prevents keyboard going over textfields
-		<KeyboardAvoidingView
+	    /* 	<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 			keyboardVerticalOffset={-50}
 			style={{
 				flex: 1,
 			}}
 		>
-			{/* Dismisses the keyboard when clicking outside the keybaord area */}
+            */
+		//	{/* Dismisses the keyboard when clicking outside the keybaord area */}
 			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 				<LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
 					<View style={{ flex: 1 }}>
@@ -55,7 +57,7 @@ const Authentication = () => {
 									<Pressable
 										style={[
 											styles.userTypeButton,
-											!isEmployee && styles.userTypeButtonSelected,
+											isEmployee ? styles.parentDefault : styles.parentSelected,
 										]}
 										onPress={() => setIsEmployee(false)}
 									>
@@ -65,7 +67,7 @@ const Authentication = () => {
 									<Pressable
 										style={[
 											styles.userTypeButton,
-											isEmployee && styles.userTypeButtonSelected,
+											isEmployee ? styles.employeeSelected : styles.employeeDefault,
 										]}
 										onPress={() => setIsEmployee(true)}
 									>
@@ -139,24 +141,26 @@ const Authentication = () => {
 							)}
 
 							{/* Button toggle between signup and registration */}
-							<Pressable
-								style={{
-									paddingTop: 24,
-								}}
-								onPress={() => {
-									setIsSignUp(!isSignUp);
-								}}
-							>
-								<Text
-									style={{
-										textDecorationLine: "underline",
-									}}
-								>
-									{isSignUp
-										? "Har bruker? Logg inn!"
-										: "Ny bruker? Register her!"}
-								</Text>
-							</Pressable>
+            <Pressable
+              style={styles.toggleContainer}
+              onPress={() => setIsSignUp(!isSignUp)}
+            >
+              <Text style={styles.toggleText}>
+                {isSignUp ? (
+                  <>
+                    <Text style={{ color: Colors.mediumGray }}>
+                      Allerede bruker?
+                    </Text>{" "}
+                    <Text style={styles.boldText}>Logg inn</Text>
+                  </>
+                ) : (
+                  <>
+                    <Text style={{ color: Colors.mediumGray }}>Ny bruker?</Text>{" "}
+                    <Text style={styles.boldText}>Registrer deg her</Text>
+                  </>
+                )}
+              </Text>
+            </Pressable>
 
 							{/* Submit button */}
 							<View style={styles.buttonContainer}>
@@ -164,10 +168,10 @@ const Authentication = () => {
 									style={styles.primaryButton}
 									onPress={async () => {
 										if (isSignUp) {
-											// if(!isEmployee) {
-											//   Alert.alert("Vennligst velg rolle");
-											//   return;
-											// }
+											if(isEmployee === null) {
+											Alert.alert("Vennligst velg din rolle");
+											 return;
+											 }
 											await createUser(
 												userEmail,
 												password,
@@ -190,6 +194,7 @@ const Authentication = () => {
 									<Text
 										style={{
 											color: "black",
+                        fontSize: 24,
 										}}
 									>
 										{isSignUp ? "Registrer bruker" : "Logg inn"}
@@ -200,7 +205,7 @@ const Authentication = () => {
 					</View>
 				</LinearGradient>
 			</TouchableWithoutFeedback>
-		</KeyboardAvoidingView>
+		//</KeyboardAvoidingView>
 	);
 };
 
@@ -208,74 +213,100 @@ export default Authentication;
 
 // Styling for the different components
 const styles = StyleSheet.create({
-	mainContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-		paddingHorizontal: 32,
-		width: "100%",
-	},
+  mainContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 32,
+    width: "100%",
+  },
 
-	titleContainer: {
-		marginBottom: 2,
-		marginTop: 55,
-		alignItems: "center",
-	},
-	headerText: {
-		fontSize: 32,
-		fontWeight: "600",
-		color: "#745FEF",
-		textAlign: "center",
-		fontFamily: Platform.OS === "ios" ? "SF Pro" : "sans-serif",
-	},
+  titleContainer: {
+    position: "absolute",
+    width: "100%",
+    marginBottom: 2,
+    marginTop: 95,
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 32,
+    fontWeight: "600",
+    color: "#745FEF",
+    textAlign: "center",
+    fontFamily: Platform.OS === "ios" ? "SF Pro" : "sans-serif",
+  },
 
-	buttonContainer: {
-		width: "110%",
-		paddingHorizontal: 16,
-		paddingTop: 32,
-		gap: 16,
-		position: "absolute",
-		bottom: 20,
-	},
-	primaryButton: {
-		paddingHorizontal: 14,
-		paddingVertical: 14,
-		borderRadius: 10,
-		backgroundColor: "#e1e0e0ff",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	secondaryButton: {
-		paddingHorizontal: 12,
-		paddingVertical: 10,
-		borderRadius: 4,
-		borderWidth: 1,
-		borderColor: "gray",
-	},
+  buttonContainer: {
+    width: "110%",
+    paddingHorizontal: 16,
+    paddingTop: 32,
+    gap: 16,
+    position: "absolute",
+    bottom: 20,
+    marginBottom: 24,
+  },
+  primaryButton: {
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    borderRadius: 10,
+    backgroundColor: "#F9FAFB",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  secondaryButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "gray",
+  },
+  textFieldContainer: {
+    width: "100%",
+    paddingTop: 16,
+  },
+  textField: {
+    borderWidth: 0.165,
+    padding: 10,
+    marginTop: 6,
+    borderColor: "gray",
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
+  },
+  userTypeButton: {
+    paddingVertical: 24,
+    paddingHorizontal: 24,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  employeeDefault: {
+    backgroundColor: "#b5b4fdff",
+  },
 
-	textFieldContainer: {
-		width: "100%",
-		paddingTop: 16,
-	},
-	textField: {
-		borderWidth: 0.25,
-		padding: 10,
-		marginTop: 6,
-		borderColor: "gray",
-		borderRadius: 10,
-		backgroundColor: "#f5f5f5",
-	},
-	userTypeButton: {
-		paddingVertical: 16,
-		paddingHorizontal: 24,
-		borderRadius: 10,
-		borderWidth: 1,
-		borderColor: "#ccc",
-	},
-	userTypeButtonSelected: {
-		backgroundColor: "#745FEF",
-	},
-	userTypeText: {
-		color: "#000",
-	},
+  employeeSelected: {
+    backgroundColor: "#7e67ffff",
+  },
+  parentDefault: {
+    backgroundColor: "#9ed9f9ff",
+  },
+
+  parentSelected: {
+    backgroundColor: "#38BDF8",
+  },
+  userTypeText: {
+    color: "#ffffffff",
+    fontSize: 24,
+  },
+  toggleContainer: {
+    paddingTop: 24,
+    alignItems: "center",
+  },
+  toggleText: {
+    fontSize: 14,
+    fontFamily: Platform.OS === "ios" ? "SF Pro" : "sans-serif",
+    textAlign: "center",
+  },
+  boldText: {
+    fontWeight: "bold",
+  },
 });
