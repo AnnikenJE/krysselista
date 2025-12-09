@@ -8,8 +8,10 @@
 //TODO: Design when designers says its OK
 
 // Imports
-import { createChild } from "@/api/childrenApi";
-import { getUser } from "@/api/userApi";
+import {
+  createChild,
+  getChildrenByUserId,
+} from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
@@ -24,6 +26,7 @@ import {
   Modal,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -35,22 +38,32 @@ export default function HomeScreenParent() {
   const [name, setName] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [healthInfo, setHealthInfo] = useState<string>("Ingen");
+  const [children, setChildren] = useState<ChildData[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // useEffect
-  //   useEffect(() => {
-  //     if (user?.id) {
-  //       getUser(user?.id);
-  //     } else {
-  //       console.error(
-  //         "Error! User id does not exist. This error should never happen."
-  //       );
-  //     }
-  //   }, [user?.id]);
+  useEffect(() => {
+    getChildrenFromApi();
+  }, []);
 
   // Functions
-  function addNewChild() {
+  async function getChildrenFromApi() {
+    setIsRefreshing(true);
+    if (user?.id) {
+      const children = await getChildrenByUserId(user.id);
+      setChildren(children ?? []);
+    } else {
+      console.error(
+        "Error! User id does not exist. This error should never happen."
+      );
+    }
+    setIsRefreshing(false);
+  }
+
+  async function addNewChild() {
+    setIsRefreshing(true);
     const child: ChildData = {
-      id: uuid.v4(),
+      id: uuid.v4().toString(),
+      parentID: user?.id ?? "Error",
       name: name,
       birthday: birthday,
       healthInfo: healthInfo,
@@ -68,13 +81,18 @@ export default function HomeScreenParent() {
         "Error! User id does not exist. This error should never happen."
       );
     }
+    setIsRefreshing(false);
   }
 
   function checkIfParentsGotChild() {
-    if (user?.children.length === 0) {
+    if (children.length === 0) {
       return <Text> Vennligst registrer barn.</Text>;
     } else {
-      return <Text>Har barn</Text>;
+      return children.map((child) => (
+        <View key={child.id}>
+          <Text>{child.name}</Text>
+        </View>
+      ));
     }
   }
 
@@ -83,11 +101,13 @@ export default function HomeScreenParent() {
     <View style={style.container}>
       <Text>Hei {user?.name}</Text>
       {checkIfParentsGotChild()}
-
-      <Pressable onPress={() => setIsModalVisible(true)}>
-        <Text>Registrer barn</Text>
-      </Pressable>
-
+      {isRefreshing ? (
+        <ActivityIndicator size={"large"} />
+      ) : (
+        <Pressable onPress={() => setIsModalVisible(true)}>
+          <Text>Registrer barn</Text>
+        </Pressable>
+      )}
       {/* Modal - Can be placed into its own file if we got time */}
       <Modal transparent visible={isModalVisible} animationType="slide">
         <View
@@ -128,8 +148,8 @@ export default function HomeScreenParent() {
                   Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
                 } else {
                   addNewChild();
+                  getChildrenFromApi();
                   setIsModalVisible(false);
-                  checkIfParentsGotChild();
                 }
               }}
             >

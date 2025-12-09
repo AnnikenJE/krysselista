@@ -11,8 +11,11 @@ import {
   doc,
   getDocs,
   addDoc,
+  getDoc,
   updateDoc,
   arrayUnion,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { ChildData } from "@/interfaces/child";
@@ -31,6 +34,36 @@ export async function createChild(userdId: string, child: ChildData) {
     console.log("Children saved with parent id:", childRef.id);
   } catch (error) {
     console.error("Error! Could not create child: ", error);
+  }
+}
+
+// Get child by ID
+export async function getChildBId(childID: string) {
+  try {
+    const child = await getDoc(doc(db, "children", childID));
+    return {
+      ...child.data(),
+      id: child.id,
+    } as ChildData;
+  } catch (error) {
+    console.error("Error gettig child wild by id: ", error);
+    return null;
+  }
+}
+
+// Get children by userID
+export async function getChildrenByUserId(userID: string) {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, "children"), where("parentID", "==", userID))
+    );
+
+    return querySnapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id } as ChildData;
+    });
+  } catch (error) {
+    console.error("Error gettig children by UserID: ", error);
+    return null;
   }
 }
 
