@@ -2,18 +2,12 @@
 //
 // Profile page for the user
 
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useAuthSession } from "@/providers/authenticationContext";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function ProfileScreen() {
-  const { signOut } = useAuthSession();
-
   return (
     <View style={style.container}>
       <Text> profile</Text>
-      <Pressable onPress={signOut}>
-        <Text>Logg ut</Text>
-      </Pressable>
     </View>
   );
 }

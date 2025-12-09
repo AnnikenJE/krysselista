@@ -28,7 +28,7 @@ export async function createChild(userdId: string, child: ChildData) {
       children: arrayUnion(childRef.id),
     });
 
-    console.log("Children saved with id:", childRef.id);
+    console.log("Children saved with parent id:", childRef.id);
   } catch (error) {
     console.error("Error! Could not create child: ", error);
   }
