@@ -130,68 +130,87 @@ export default function HomeScreenParent() {
             onPress={() => setIsModalVisible(true)}
             style={style.button}
           >
-            <Text>Registrer barn</Text>
+            <Text
+              style={{
+                fontSize: FontSizes.H3,
+                color: Colors.primaryWhite,
+              }}
+            >
+              Registrer barn
+            </Text>
           </Pressable>
         )}
         {/* Modal - Can be placed into its own file if we got time */}
         <Modal transparent visible={isModalVisible} animationType="slide">
-          <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
-            <View style={style.modalContainer}>
-              <Pressable onPress={() => setIsModalVisible(false)}>
+          <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
+            <LinearGradient
+              style={{ borderRadius: 24 }}
+              colors={["#FFE5EC", "#E3F2FD"]}
+            >
+              <View style={[style.modalContainer, {}]}>
+                {/* Back button */}
                 <View style={style.backButton}>
-                  <Feather name="arrow-left" size={24} color="black" />
-                  <Text>Tilbake</Text>
+                  <Pressable onPress={() => setIsModalVisible(false)}>
+                    <Feather name="x" size={24} color={Colors.darkGray} />
+                  </Pressable>
                 </View>
-              </Pressable>
-              <View style={style.textFieldContainer}>
-                <Text style={style.headingText}>Registrer ditt barn</Text>
-                <Text style={style.inputFieldText}>Navn</Text>
-                <TextInput
-                  style={style.textField}
-                  value={name}
-                  placeholder="Fornavn og Etternavn"
-                  onChangeText={setName}
-                />
-                <Text style={style.inputFieldText}>
-                  Beskriv helseutfordringer
-                </Text>
-                <TextInput
-                  style={style.textField}
-                  value={healthInfo}
-                  placeholder={healthInfo}
-                  onChangeText={setHealthInfo}
-                />
-                <Text style={style.inputFieldText}>Fødselsdato</Text>
-                <TextInput
-                  style={style.textField}
-                  value={birthday}
-                  placeholder="Eks. 20. november 2023"
-                  onChangeText={setBirthday}
-                />
-                <Pressable
-                  onPress={() => {
-                    if (name === "" || healthInfo === "" || birthday === "") {
-                      Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
-                    } else {
-                      addNewChild();
-                      getChildrenFromApi();
-                      setIsModalVisible(false);
-                    }
-                  }}
-                  style={style.button}
-                >
-                  <Text
-                    style={{
-                      fontSize: FontSizes.H3,
-                      color: Colors.primaryWhite,
-                    }}
-                  >
-                    Legg til
+
+                {/* Text fields */}
+                <View style={style.textFieldContainer}>
+                  <Text style={style.headingText}>Registrer ditt barn</Text>
+                  <Text style={style.inputFieldText}>Navn</Text>
+                  <TextInput
+                    style={style.textField}
+                    value={name}
+                    placeholder="Fornavn og Etternavn"
+                    onChangeText={setName}
+                  />
+                  <Text style={style.inputFieldText}>
+                    Beskriv helseutfordringer
                   </Text>
-                </Pressable>
+                  <TextInput
+                    style={style.textField}
+                    value={healthInfo}
+                    placeholder={healthInfo}
+                    onChangeText={setHealthInfo}
+                  />
+                  <Text style={style.inputFieldText}>Fødselsdato</Text>
+                  <TextInput
+                    style={style.textField}
+                    value={birthday}
+                    placeholder="Eks. 20. november 2023"
+                    onChangeText={setBirthday}
+                  />
+
+                  {/* Add button */}
+                  <Pressable
+                    onPress={() => {
+                      if (name === "" || healthInfo === "" || birthday === "") {
+                        Alert.alert(
+                          "Error!",
+                          "Vennligst fyll inn alle feltene."
+                        );
+                      } else {
+                        addNewChild();
+                        getChildrenFromApi();
+                        setIsModalVisible(false);
+                      }
+                    }}
+                    style={style.button}
+                  >
+                    <Text
+                      style={{
+                        fontSize: FontSizes.H3,
+                        color: Colors.primaryWhite,
+                      }}
+                    >
+                      Legg til
+                    </Text>
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          </LinearGradient>
+            </LinearGradient>
+          </View>
         </Modal>
       </View>
     </LinearGradient>
@@ -206,9 +225,8 @@ const style = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
   },
   textField: {
     borderWidth: 1,
@@ -252,9 +270,8 @@ const style = StyleSheet.create({
     margin: 20,
   },
   backButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
+    paddingRight: 30,
+    paddingTop: 30,
   },
   inputFieldText: {
     color: Colors.darkGray,
