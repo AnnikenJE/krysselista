@@ -55,7 +55,6 @@ export default function SettingsScreen() {
 			{/* TODO: Modal needs to be moved to components */}
 			<Modal
 				visible={modalVisible}
-				onRequestClose={() => setModalVisible(false)}
 				transparent={true}
 				animationType="fade"
 			>
@@ -178,7 +177,6 @@ const style = StyleSheet.create({
 		alignItems: "center",
 	},
 	modalContent: {
-		backgroundColor: Colors.primaryWhite,
 		borderRadius: 20,
 		padding: 24,
 		width: "85%",
