@@ -18,6 +18,7 @@ import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";
+import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import {
   Pressable,
@@ -90,8 +91,16 @@ export default function HomeScreenParent() {
       return <Text> Vennligst registrer barn.</Text>;
     } else {
       return children.map((child) => (
-        <View key={child.id}>
-          <Text>{child.name}</Text>
+        <View key={child.id} style={style.childInfoContentBox}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={style.avatar}>
+              <Text>
+
+              </Text>
+            </View>
+            <Text style={style.childNameText}>{child.name}</Text>
+          </View>
+
           <Pressable
             onPress={() => {
               toggleChildPresence(child.id, child.isPresent);
@@ -107,67 +116,71 @@ export default function HomeScreenParent() {
 
   // Return
   return (
-    <View style={style.container}>
-      <Text>Hei {user?.name}</Text>
-      {checkIfParentsGotChild()}
-      {isRefreshing ? (
-        <ActivityIndicator size={"large"} />
-      ) : (
-        <Pressable onPress={() => setIsModalVisible(true)}>
-          <Text>Registrer barn</Text>
-        </Pressable>
-      )}
-      {/* Modal - Can be placed into its own file if we got time */}
-      <Modal transparent visible={isModalVisible} animationType="slide">
-        <View
-          style={[style.container, { backgroundColor: Colors.primaryWhite }]}
-        >
-          <Pressable onPress={() => setIsModalVisible(false)}>
-            <View>
-              <Feather name="arrow-left" size={24} color="black" />
-              <Text>Tilbake</Text>
-            </View>
+    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+      <View style={style.container}>
+        <Text style={{ color: Colors.primaryPurple, fontSize: FontSizes.H1 }}>
+          Hei {user?.name}
+        </Text>
+        {checkIfParentsGotChild()}
+        {isRefreshing ? (
+          <ActivityIndicator size={"large"} />
+        ) : (
+          <Pressable onPress={() => setIsModalVisible(true)}>
+            <Text>Registrer barn</Text>
           </Pressable>
-          <View style={style.textFieldContainer}>
-            <Text style={style.headingText}>Registrer ditt barn</Text>
-            <Text>Navn</Text>
-            <TextInput
-              style={style.textField}
-              value={name}
-              placeholder="Fornavn og Etternavn"
-              onChangeText={setName}
-            />
-            <Text>Beskriv helseutfordringer</Text>
-            <TextInput
-              style={style.textField}
-              value={healthInfo}
-              placeholder={healthInfo}
-              onChangeText={setHealthInfo}
-            />
-            <Text>Fødselsdato</Text>
-            <TextInput
-              style={style.textField}
-              value={birthday}
-              placeholder="Eks. 20. november 2023"
-              onChangeText={setBirthday}
-            />
-            <Pressable
-              onPress={() => {
-                if (name === "" || healthInfo === "" || birthday === "") {
-                  Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
-                } else {
-                  addNewChild();
-                  getChildrenFromApi();
-                  setIsModalVisible(false);
-                }
-              }}
-            >
-              <Text>Legg til</Text>
+        )}
+        {/* Modal - Can be placed into its own file if we got time */}
+        <Modal transparent visible={isModalVisible} animationType="slide">
+          <View
+            style={[style.container, { backgroundColor: Colors.primaryWhite }]}
+          >
+            <Pressable onPress={() => setIsModalVisible(false)}>
+              <View>
+                <Feather name="arrow-left" size={24} color="black" />
+                <Text>Tilbake</Text>
+              </View>
             </Pressable>
+            <View style={style.textFieldContainer}>
+              <Text style={style.headingText}>Registrer ditt barn</Text>
+              <Text>Navn</Text>
+              <TextInput
+                style={style.textField}
+                value={name}
+                placeholder="Fornavn og Etternavn"
+                onChangeText={setName}
+              />
+              <Text>Beskriv helseutfordringer</Text>
+              <TextInput
+                style={style.textField}
+                value={healthInfo}
+                placeholder={healthInfo}
+                onChangeText={setHealthInfo}
+              />
+              <Text>Fødselsdato</Text>
+              <TextInput
+                style={style.textField}
+                value={birthday}
+                placeholder="Eks. 20. november 2023"
+                onChangeText={setBirthday}
+              />
+              <Pressable
+                onPress={() => {
+                  if (name === "" || healthInfo === "" || birthday === "") {
+                    Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
+                  } else {
+                    addNewChild();
+                    getChildrenFromApi();
+                    setIsModalVisible(false);
+                  }
+                }}
+              >
+                <Text>Legg til</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -194,4 +207,20 @@ const style = StyleSheet.create({
     color: Colors.primaryPurple,
     fontSize: FontSizes.H1,
   },
+  avatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: Colors.primaryPurple,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  childInfoContentBox: {
+    backgroundColor: Colors.primaryWhite,
+    width: "90%",
+  },
+  childNameText: {
+    fontSize: FontSizes.H2,
+  },
+  
 });
