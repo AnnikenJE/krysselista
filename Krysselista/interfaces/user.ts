@@ -2,7 +2,6 @@
 //
 // User interface for parents and employees
 
-import { ChildData } from "./child";
 
 export interface UserData {
   id: string;
@@ -11,5 +10,5 @@ export interface UserData {
   address: string;
   phone: string;
   isEmployee: boolean;
-  children: ChildData[];
+  children: string[];
 }

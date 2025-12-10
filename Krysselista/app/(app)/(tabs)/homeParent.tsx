@@ -5,13 +5,20 @@
 // Sources:
 // uuid: https://dev.to/tincastle/uuid-libraries-for-react-native-3mg
 
+//TODO: Design when designers says its OK
+
 // Imports
-import { createChild } from "@/api/childrenApi";
+import {
+  createChild,
+  getChildrenByUserId,
+  toggleChildPresence,
+} from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
-import { useState } from "react";
+import Feather from "@expo/vector-icons/Feather";
+import { useState, useEffect } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -20,6 +27,7 @@ import {
   Modal,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -31,11 +39,32 @@ export default function HomeScreenParent() {
   const [name, setName] = useState<string>("");
   const [birthday, setBirthday] = useState<string>("");
   const [healthInfo, setHealthInfo] = useState<string>("Ingen");
+  const [children, setChildren] = useState<ChildData[]>([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  useEffect(() => {
+    getChildrenFromApi();
+  }, []);
 
   // Functions
-  function addNewChild() {
+  async function getChildrenFromApi() {
+    setIsRefreshing(true);
+    if (user?.id) {
+      const children = await getChildrenByUserId(user.id);
+      setChildren(children ?? []);
+    } else {
+      console.error(
+        "Error! User id does not exist. This error should never happen."
+      );
+    }
+    setIsRefreshing(false);
+  }
+
+  async function addNewChild() {
+    setIsRefreshing(true);
     const child: ChildData = {
-      id: uuid.v4(),
+      id: uuid.v4().toString(),
+      parentID: user?.id ?? "Error",
       name: name,
       birthday: birthday,
       healthInfo: healthInfo,
@@ -53,23 +82,51 @@ export default function HomeScreenParent() {
         "Error! User id does not exist. This error should never happen."
       );
     }
+    setIsRefreshing(false);
+  }
+
+  function checkIfParentsGotChild() {
+    if (children.length === 0) {
+      return <Text> Vennligst registrer barn.</Text>;
+    } else {
+      return children.map((child) => (
+        <View key={child.id}>
+          <Text>{child.name}</Text>
+          <Pressable
+            onPress={() => {
+              toggleChildPresence(child.id, child.isPresent);
+              getChildrenFromApi();
+            }}
+          >
+            <Text>{child.isPresent ? "Til stede" : "Ikke til stede"}</Text>
+          </Pressable>
+        </View>
+      ));
+    }
   }
 
   // Return
   return (
     <View style={style.container}>
-      <Text>Home parent</Text>
-      <Pressable onPress={() => setIsModalVisible(true)}>
-        <Text>Registrer barn</Text>
-      </Pressable>
-
-      {/* Modal - Can be placed into its own file  */}
+      <Text>Hei {user?.name}</Text>
+      {checkIfParentsGotChild()}
+      {isRefreshing ? (
+        <ActivityIndicator size={"large"} />
+      ) : (
+        <Pressable onPress={() => setIsModalVisible(true)}>
+          <Text>Registrer barn</Text>
+        </Pressable>
+      )}
+      {/* Modal - Can be placed into its own file if we got time */}
       <Modal transparent visible={isModalVisible} animationType="slide">
         <View
           style={[style.container, { backgroundColor: Colors.primaryWhite }]}
         >
           <Pressable onPress={() => setIsModalVisible(false)}>
-            <Text>Tilbake</Text>
+            <View>
+              <Feather name="arrow-left" size={24} color="black" />
+              <Text>Tilbake</Text>
+            </View>
           </Pressable>
           <View style={style.textFieldContainer}>
             <Text style={style.headingText}>Registrer ditt barn</Text>
@@ -100,6 +157,7 @@ export default function HomeScreenParent() {
                   Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
                 } else {
                   addNewChild();
+                  getChildrenFromApi();
                   setIsModalVisible(false);
                 }
               }}
@@ -124,7 +182,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     marginTop: 6,
-    borderColor: Colors.darkGray,
+    borderColor: Colors.lightGray,
     borderRadius: 10,
     backgroundColor: Colors.primaryWhite,
   },
@@ -135,5 +193,5 @@ const style = StyleSheet.create({
   headingText: {
     color: Colors.primaryPurple,
     fontSize: FontSizes.H1,
-  }
+  },
 });
