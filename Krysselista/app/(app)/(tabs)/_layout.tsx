@@ -58,7 +58,7 @@ export default function TabBar() {
 
 			{/* Profile tabs */}
 			<Tabs.Screen
-				name="profile"
+				name="myChild"
 				options={{
 					title: "Mitt barn",
 					tabBarIcon: ({ color }) => (
