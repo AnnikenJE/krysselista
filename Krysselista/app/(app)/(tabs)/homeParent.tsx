@@ -29,6 +29,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -94,9 +95,7 @@ export default function HomeScreenParent() {
         <View key={child.id} style={style.childInfoContentBox}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={style.avatar}>
-              <Text>
-
-              </Text>
+              <Text></Text>
             </View>
             <Text style={style.childNameText}>{child.name}</Text>
           </View>
@@ -107,7 +106,9 @@ export default function HomeScreenParent() {
               getChildrenFromApi();
             }}
           >
-            <Text>{child.isPresent ? "Til stede" : "Ikke til stede"}</Text>
+            <Text style={{ color: Colors.primaryBlack }}>
+              {child.isPresent ? "Til stede" : "Ikke til stede"}
+            </Text>
           </Pressable>
         </View>
       ));
@@ -125,59 +126,72 @@ export default function HomeScreenParent() {
         {isRefreshing ? (
           <ActivityIndicator size={"large"} />
         ) : (
-          <Pressable onPress={() => setIsModalVisible(true)}>
+          <Pressable
+            onPress={() => setIsModalVisible(true)}
+            style={style.button}
+          >
             <Text>Registrer barn</Text>
           </Pressable>
         )}
         {/* Modal - Can be placed into its own file if we got time */}
         <Modal transparent visible={isModalVisible} animationType="slide">
-          <View
-            style={[style.container, { backgroundColor: Colors.primaryWhite }]}
-          >
-            <Pressable onPress={() => setIsModalVisible(false)}>
-              <View>
-                <Feather name="arrow-left" size={24} color="black" />
-                <Text>Tilbake</Text>
-              </View>
-            </Pressable>
-            <View style={style.textFieldContainer}>
-              <Text style={style.headingText}>Registrer ditt barn</Text>
-              <Text>Navn</Text>
-              <TextInput
-                style={style.textField}
-                value={name}
-                placeholder="Fornavn og Etternavn"
-                onChangeText={setName}
-              />
-              <Text>Beskriv helseutfordringer</Text>
-              <TextInput
-                style={style.textField}
-                value={healthInfo}
-                placeholder={healthInfo}
-                onChangeText={setHealthInfo}
-              />
-              <Text>Fødselsdato</Text>
-              <TextInput
-                style={style.textField}
-                value={birthday}
-                placeholder="Eks. 20. november 2023"
-                onChangeText={setBirthday}
-              />
-              <Pressable
-                onPress={() => {
-                  if (name === "" || healthInfo === "" || birthday === "") {
-                    Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
-                  } else {
-                    addNewChild();
-                    getChildrenFromApi();
-                    setIsModalVisible(false);
-                  }
-                }}
-              >
-                <Text>Legg til</Text>
+          <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+            <View style={style.modalContainer}>
+              <Pressable onPress={() => setIsModalVisible(false)}>
+                <View style={style.backButton}>
+                  <Feather name="arrow-left" size={24} color="black" />
+                  <Text>Tilbake</Text>
+                </View>
               </Pressable>
+              <View style={style.textFieldContainer}>
+                <Text style={style.headingText}>Registrer ditt barn</Text>
+                <Text style={style.inputFieldText}>Navn</Text>
+                <TextInput
+                  style={style.textField}
+                  value={name}
+                  placeholder="Fornavn og Etternavn"
+                  onChangeText={setName}
+                />
+                <Text style={style.inputFieldText}>
+                  Beskriv helseutfordringer
+                </Text>
+                <TextInput
+                  style={style.textField}
+                  value={healthInfo}
+                  placeholder={healthInfo}
+                  onChangeText={setHealthInfo}
+                />
+                <Text style={style.inputFieldText}>Fødselsdato</Text>
+                <TextInput
+                  style={style.textField}
+                  value={birthday}
+                  placeholder="Eks. 20. november 2023"
+                  onChangeText={setBirthday}
+                />
+                <Pressable
+                  onPress={() => {
+                    if (name === "" || healthInfo === "" || birthday === "") {
+                      Alert.alert("Error!", "Vennligst fyll inn alle feltene.");
+                    } else {
+                      addNewChild();
+                      getChildrenFromApi();
+                      setIsModalVisible(false);
+                    }
+                  }}
+                  style={style.button}
+                >
+                  <Text
+                    style={{
+                      fontSize: FontSizes.H3,
+                      color: Colors.primaryWhite,
+                    }}
+                  >
+                    Legg til
+                  </Text>
+                </Pressable>
+              </View>
             </View>
-          </View>
+          </LinearGradient>
         </Modal>
       </View>
     </LinearGradient>
@@ -187,6 +201,11 @@ export default function HomeScreenParent() {
 // Style
 const style = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -201,7 +220,7 @@ const style = StyleSheet.create({
   },
   textFieldContainer: {
     width: "100%",
-    paddingTop: 16,
+    padding: 40,
   },
   headingText: {
     color: Colors.primaryPurple,
@@ -214,6 +233,7 @@ const style = StyleSheet.create({
     backgroundColor: Colors.primaryPurple,
     justifyContent: "center",
     alignItems: "center",
+    margin: 10,
   },
   childInfoContentBox: {
     backgroundColor: Colors.primaryWhite,
@@ -222,5 +242,23 @@ const style = StyleSheet.create({
   childNameText: {
     fontSize: FontSizes.H2,
   },
-  
+  button: {
+    backgroundColor: Colors.variationPurple,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.lightGray,
+    padding: 10,
+    margin: 20,
+  },
+  backButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  inputFieldText: {
+    color: Colors.darkGray,
+    fontSize: FontSizes.H4,
+    marginTop: 10,
+  },
 });
