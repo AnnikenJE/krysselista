@@ -5,13 +5,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import {
   Alert,
-  Keyboard,
   Platform,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
 
@@ -38,7 +36,7 @@ const Authentication = () => {
 		>
             */
     //	{/* Dismisses the keyboard when clicking outside the keybaord area */}
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    //<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <View style={styles.titleContainer}>
@@ -225,7 +223,7 @@ const Authentication = () => {
           </View>
         </View>
       </LinearGradient>
-    </TouchableWithoutFeedback>
+  //  </TouchableWithoutFeedback>
     //</KeyboardAvoidingView>
   );
 };

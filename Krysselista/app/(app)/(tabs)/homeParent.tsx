@@ -8,7 +8,11 @@
 //TODO: Design when designers says its OK
 
 // Imports
-import { createChild, getChildrenByUserId } from "@/api/childrenApi";
+import {
+  createChild,
+  getChildrenByUserId,
+  toggleChildPresence,
+} from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
@@ -88,6 +92,14 @@ export default function HomeScreenParent() {
       return children.map((child) => (
         <View key={child.id}>
           <Text>{child.name}</Text>
+          <Pressable
+            onPress={() => {
+              toggleChildPresence(child.id, child.isPresent);
+              getChildrenFromApi();
+            }}
+          >
+            <Text>{child.isPresent ? "Til stede" : "Ikke til stede"}</Text>
+          </Pressable>
         </View>
       ));
     }
