@@ -37,7 +37,10 @@ export default function MyChild() {
   });
 
   return (
-    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+    <LinearGradient
+      colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+      style={{ flex: 1 }}
+    >
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.container}>
           {children.length === 0 ? (
