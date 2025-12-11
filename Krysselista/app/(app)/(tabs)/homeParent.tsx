@@ -287,9 +287,9 @@ const style = StyleSheet.create({
     borderColor: Colors.primaryWhite,
     borderWidth: 3,
     shadowColor: Colors.darkGray,
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   childInfoContentBox: {
     width: "90%",
@@ -298,9 +298,9 @@ const style = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
     shadowColor: Colors.darkGray,
-    shadowRadius: 1,
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 1, height: 2 },
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   childNameText: {
     fontSize: FontSizes.H2,
@@ -324,7 +324,7 @@ const style = StyleSheet.create({
     alignSelf: "center",
     borderRadius: 10,
     borderColor: Colors.statusDarkGreen,
-    borderWidth: 2,
+    borderWidth: 1,
     width: "90%",
   },
   childAbsentBox: {
@@ -334,7 +334,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
     borderColor: Colors.statusDarkRed,
-    borderWidth: 2,
+    borderWidth: 1,
     width: "90%",
   },
   childPresentText: {
