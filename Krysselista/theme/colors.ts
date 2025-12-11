@@ -2,6 +2,8 @@
 //
 // Colors
 
+import { Background } from "@react-navigation/elements";
+
 export const Colors = {
   // Primary colors
   primaryPurple: "#745FEF", 
@@ -22,4 +24,8 @@ export const Colors = {
   statusDarkGreen: "#47A74B",
   statusLightRed: "#FFE5EC",
   statusDarkRed: "#E27373",
+
+  // Background
+  backgroundPink: "#FFE5EC",
+  backgroundBlue: "#E3F2FD"
 };

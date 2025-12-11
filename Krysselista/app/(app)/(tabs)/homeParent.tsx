@@ -30,7 +30,6 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
-  FlatList,
   ScrollView,
 } from "react-native";
 import uuid from "react-native-uuid";
@@ -127,7 +126,10 @@ export default function HomeScreenParent() {
 
   // Return
   return (
-    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+    <LinearGradient
+      colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+      style={{ flex: 1 }}
+    >
       <View style={style.container}>
         <View style={style.headerTextContainer}>
           <Text style={style.headerTitle}>Hei {user?.name}</Text>
@@ -157,7 +159,7 @@ export default function HomeScreenParent() {
           <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
             <LinearGradient
               style={{ borderRadius: 24 }}
-              colors={["#FFE5EC", "#E3F2FD"]}
+              colors={[Colors.backgroundPink, Colors.backgroundBlue]}
             >
               <View style={[style.modalContainer, {}]}>
                 {/* Back button */}
@@ -272,7 +274,7 @@ const style = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
   },
   childInfoContentBox: {
-    width: "90%",
+    width: 350,
   },
   childNameText: {
     fontSize: FontSizes.H2,
