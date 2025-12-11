@@ -134,6 +134,7 @@ export default function SettingsScreen() {
 							<Text style={style.settingsTitle}>Språk</Text>
 						</View>
 
+            {/* Norwegian Bokmål */}
 						<Pressable
 							style={[
 								style.languageOption,
@@ -157,7 +158,8 @@ export default function SettingsScreen() {
 						</Pressable>
 
 						<View style={style.languageDivider} />
-
+            
+            {/* Norwegian Nynorsk */}
 						<Pressable
 							style={[
 								style.languageOption,
@@ -182,6 +184,7 @@ export default function SettingsScreen() {
 
 						<View style={style.languageDivider} />
 
+            {/* English */}
 						<Pressable
 							style={[
 								style.languageOption,
