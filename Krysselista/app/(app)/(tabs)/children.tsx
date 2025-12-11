@@ -4,10 +4,14 @@
 
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
+import { Colors } from "@/theme/colors";
 
 export default function ChildrenScreen() {
   return (
-    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+    <LinearGradient
+      colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+      style={{ flex: 1 }}
+    >
       <View style={style.container}>
         <Text>Alle barn</Text>
       </View>
