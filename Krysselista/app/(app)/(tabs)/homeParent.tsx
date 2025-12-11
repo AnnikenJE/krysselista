@@ -49,7 +49,7 @@ export default function HomeScreenParent() {
     getChildrenFromApi();
   }, []);
 
-  // Functions
+  // Functions  ----------------------------------------------
   async function getChildrenFromApi() {
     setIsRefreshing(true);
     if (user?.id) {
@@ -129,12 +129,12 @@ export default function HomeScreenParent() {
             {child.isPresent ? (
               <View style={style.checkInChildButton}>
                 <Feather name="log-out" size={24} color={Colors.primaryWhite} />
-                <Text style={style.checkOutText}>Sjekk ut</Text>
+                <Text style={style.checkOutText}> Sjekk ut</Text>
               </View>
             ) : (
               <View style={style.checkOutChildButton}>
                 <Feather name="log-in" size={24} color={Colors.primaryWhite} />
-                <Text style={style.checkInText}>Sjekk inn</Text>
+                <Text style={style.checkInText}> Sjekk inn</Text>
               </View>
             )}
           </Pressable>
@@ -149,12 +149,18 @@ export default function HomeScreenParent() {
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
       style={{ flex: 1 }}
     >
+      {/* Header */}
       <View style={style.container}>
         <View style={style.headerTextContainer}>
-          <Text style={style.headerTitle}>Hei {user?.name}</Text>
+          <Text style={style.headerTitle}>Hei {user?.name}!</Text>
+          <Text style={style.headerSubTitle}>Status for dine barn</Text>
         </View>
+
+        {/* Child list */}
         <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           {checkIfParentsGotChild()}
+
+          {/* Add child button */}
           {isRefreshing ? (
             <ActivityIndicator size={"large"} />
           ) : (
@@ -252,9 +258,137 @@ export default function HomeScreenParent() {
 
 // Style ----------------------------------------------
 const style = StyleSheet.create({
+  // Main container
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+
+  headerTitle: {
+    color: Colors.primaryPurple,
+    fontSize: FontSizes.H1,
+    margin: 10,
+  },
+  headerSubTitle: {
+    color: Colors.darkGray,
+    fontSize: FontSizes.H3,
+    paddingBottom: 10,
+    fontWeight: "bold",
+  },
+  // Child card
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 28,
+    backgroundColor: Colors.primaryPurple,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 10,
+    borderColor: Colors.primaryWhite,
+    borderWidth: 3,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+  },
+  childInfoContentBox: {
+    width: "90%",
+    margin: 10,
+    backgroundColor: Colors.primaryWhite,
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 1,
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 1, height: 2 },
+  },
+  childNameText: {
+    fontSize: FontSizes.H2,
+    marginRight: 100,
+  },
+  headerTextContainer: {
+    marginTop: 70,
+    alignItems: "center",
+  },
+
+  avatarLetter: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H1,
+  },
+
+  // Child status
+  childPresentBox: {
+    backgroundColor: Colors.statusLightGreen,
+    margin: 20,
+    padding: 10,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderColor: Colors.statusDarkGreen,
+    borderWidth: 2,
+    width: "90%",
+  },
+  childAbsentBox: {
+    backgroundColor: Colors.statusLightRed,
+    margin: 20,
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: "center",
+    borderColor: Colors.statusDarkRed,
+    borderWidth: 2,
+    width: "90%",
+  },
+  childPresentText: {
+    color: Colors.statusDarkGreen,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  childAbsentText: {
+    color: Colors.statusDarkRed,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+
+  // Check in/out button
+  checkInChildButton: {
+    backgroundColor: Colors.statusDarkRed,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkOutChildButton: {
+    backgroundColor: Colors.statusDarkGreen,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkInText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H3,
+  },
+  checkOutText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H3,
+  },
+  // Modal
+  headingText: {
+    color: Colors.primaryPurple,
+    fontSize: FontSizes.H1,
   },
   modalContainer: {
     justifyContent: "center",
@@ -273,32 +407,6 @@ const style = StyleSheet.create({
     width: "100%",
     padding: 40,
   },
-  headingText: {
-    color: Colors.primaryPurple,
-    fontSize: FontSizes.H1,
-  },
-  avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 28,
-    backgroundColor: Colors.primaryPurple,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-    borderColor: Colors.primaryWhite,
-    borderWidth: 3,
-    shadowColor: Colors.darkGray,
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
-  },
-  childInfoContentBox: {
-    width: "90%",
-    margin: 20,
-  },
-  childNameText: {
-    fontSize: FontSizes.H2,
-  },
   button: {
     backgroundColor: Colors.variationPurple,
     borderRadius: 10,
@@ -315,79 +423,5 @@ const style = StyleSheet.create({
     color: Colors.darkGray,
     fontSize: FontSizes.H4,
     marginTop: 10,
-  },
-  headerTextContainer: {
-    marginTop: 70,
-    alignItems: "center",
-  },
-  headerTitle: {
-    color: Colors.primaryPurple,
-    fontSize: FontSizes.H1,
-    margin: 30,
-  },
-  avatarLetter: {
-    color: Colors.primaryWhite,
-    fontSize: FontSizes.H1,
-  },
-
-  childPresentBox: {
-    backgroundColor: Colors.statusLightGreen,
-    margin: 20,
-    padding: 10,
-    borderRadius: 10,
-    borderColor: Colors.statusDarkGreen,
-    borderWidth: 2,
-    width: "90%",
-  },
-  childAbsentBox: {
-    backgroundColor: Colors.statusLightRed,
-    margin: 20,
-    padding: 10,
-    borderRadius: 10,
-    borderColor: Colors.statusDarkRed,
-    borderWidth: 2,
-    width: "90%",
-  },
-  childPresentText: {
-    color: Colors.statusDarkGreen,
-    fontWeight: "bold",
-  },
-  childAbsentText: {
-    color: Colors.statusDarkRed,
-    fontWeight: "bold",
-  },
-  checkInChildButton: {
-    backgroundColor: Colors.statusDarkRed,
-    borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    width: "90%",
-    padding: 5,
-    shadowColor: Colors.darkGray,
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
-    alignSelf: "center",
-  },
-  checkOutChildButton: {
-    backgroundColor: Colors.statusDarkGreen,
-    borderRadius: 10,
-    justifyContent: "center",
-    flexDirection: "row",
-    width: "90%",
-    padding: 5,
-    shadowColor: Colors.darkGray,
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-    shadowOffset: { width: 1, height: 2 },
-    alignSelf: "center",
-  },
-  checkInText: {
-    color: Colors.primaryWhite,
-    fontSize: FontSizes.H2,
-  },
-  checkOutText: {
-    color: Colors.primaryWhite,
-    fontSize: FontSizes.H2,
   },
 });
