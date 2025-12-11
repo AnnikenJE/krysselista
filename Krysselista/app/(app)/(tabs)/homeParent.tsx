@@ -7,7 +7,7 @@
 
 //TODO: Design when designers says its OK
 
-// Imports
+// Imports ----------------------------------------------
 import {
   createChild,
   getChildrenByUserId,
@@ -18,7 +18,6 @@ import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";
-import { HeaderTitle } from "@react-navigation/elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import {
@@ -34,7 +33,7 @@ import {
 } from "react-native";
 import uuid from "react-native-uuid";
 
-// HomeScreenParent
+// HomeScreenParent ----------------------------------------------
 export default function HomeScreenParent() {
   // Variables
   const { user } = useAuthSession();
@@ -45,6 +44,7 @@ export default function HomeScreenParent() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // UseEffects
   useEffect(() => {
     getChildrenFromApi();
   }, []);
@@ -94,6 +94,7 @@ export default function HomeScreenParent() {
     } else {
       return children.map((child) => (
         <View key={child.id} style={style.childInfoContentBox}>
+          {/* Avatar and name */}
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={style.avatar}>
               <Text style={style.avatarLetter}>{child.name[0]}</Text>
@@ -102,6 +103,8 @@ export default function HomeScreenParent() {
               <Text style={style.childNameText}>{child.name}</Text>
             </View>
           </View>
+
+          {/* Child status */}
           <View
             style={
               child.isPresent ? style.childPresentBox : style.childAbsentBox
@@ -115,22 +118,32 @@ export default function HomeScreenParent() {
               {child.isPresent ? "●  Til stede" : "●  Ikke til stede"}
             </Text>
           </View>
+
+          {/* Child check out/in button */}
           <Pressable
             onPress={() => {
               toggleChildPresence(child.id, child.isPresent);
               getChildrenFromApi();
             }}
           >
-            <Text style={style.changeChildStatusButton}>
-              {child.isPresent ? "Sjekk ut" : "Sjekk inn"}
-            </Text>
+            {child.isPresent ? (
+              <View style={style.checkInChildButton}>
+                <Feather name="log-out" size={24} color={Colors.primaryWhite} />
+                <Text style={style.checkOutText}>Sjekk ut</Text>
+              </View>
+            ) : (
+              <View style={style.checkOutChildButton}>
+                <Feather name="log-in" size={24} color={Colors.primaryWhite} />
+                <Text style={style.checkInText}>Sjekk inn</Text>
+              </View>
+            )}
           </Pressable>
         </View>
       ));
     }
   }
 
-  // Return
+  // Return ----------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -164,7 +177,7 @@ export default function HomeScreenParent() {
         <Modal transparent visible={isModalVisible} animationType="slide">
           <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
             <LinearGradient
-              style={{ borderRadius: 24 }}
+              style={{ borderRadius: 20 }}
               colors={[Colors.backgroundPink, Colors.backgroundBlue]}
             >
               <View style={[style.modalContainer, {}]}>
@@ -237,7 +250,7 @@ export default function HomeScreenParent() {
   );
 }
 
-// Style
+// Style ----------------------------------------------
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -281,6 +294,7 @@ const style = StyleSheet.create({
   },
   childInfoContentBox: {
     width: "90%",
+    margin: 20,
   },
   childNameText: {
     fontSize: FontSizes.H2,
@@ -315,9 +329,7 @@ const style = StyleSheet.create({
     color: Colors.primaryWhite,
     fontSize: FontSizes.H1,
   },
-  changeChildStatusButton: {
-    // TODO:
-  },
+
   childPresentBox: {
     backgroundColor: Colors.statusLightGreen,
     margin: 20,
@@ -343,5 +355,39 @@ const style = StyleSheet.create({
   childAbsentText: {
     color: Colors.statusDarkRed,
     fontWeight: "bold",
+  },
+  checkInChildButton: {
+    backgroundColor: Colors.statusDarkRed,
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkOutChildButton: {
+    backgroundColor: Colors.statusDarkGreen,
+    borderRadius: 10,
+    justifyContent: "center",
+    flexDirection: "row",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkInText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H2,
+  },
+  checkOutText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H2,
   },
 });
