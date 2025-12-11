@@ -509,7 +509,7 @@ const style = StyleSheet.create({
   privacyText: {
     fontSize: FontSizes.H4,
     color: Colors.primaryBlack,
-    lineHeight: 20,
+    lineHeight: 16,
     marginBottom: 12,
   },
 
