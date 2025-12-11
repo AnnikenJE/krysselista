@@ -7,7 +7,7 @@
 
 //TODO: Design when designers says its OK
 
-// Imports
+// Imports ----------------------------------------------
 import {
   createChild,
   getChildrenByUserId,
@@ -29,11 +29,11 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
-  FlatList,
+  ScrollView,
 } from "react-native";
 import uuid from "react-native-uuid";
 
-// HomeScreenParent
+// HomeScreenParent ----------------------------------------------
 export default function HomeScreenParent() {
   // Variables
   const { user } = useAuthSession();
@@ -44,11 +44,12 @@ export default function HomeScreenParent() {
   const [children, setChildren] = useState<ChildData[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // UseEffects
   useEffect(() => {
     getChildrenFromApi();
   }, []);
 
-  // Functions
+  // Functions  ----------------------------------------------
   async function getChildrenFromApi() {
     setIsRefreshing(true);
     if (user?.id) {
@@ -93,59 +94,97 @@ export default function HomeScreenParent() {
     } else {
       return children.map((child) => (
         <View key={child.id} style={style.childInfoContentBox}>
+          {/* Avatar and name */}
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={style.avatar}>
-              <Text></Text>
+              <Text style={style.avatarLetter}>{child.name[0]}</Text>
             </View>
-            <Text style={style.childNameText}>{child.name}</Text>
+            <View>
+              <Text style={style.childNameText}>{child.name}</Text>
+            </View>
           </View>
 
+          {/* Child status */}
+          <View
+            style={
+              child.isPresent ? style.childPresentBox : style.childAbsentBox
+            }
+          >
+            <Text
+              style={
+                child.isPresent ? style.childPresentText : style.childAbsentText
+              }
+            >
+              {child.isPresent ? "●  Til stede" : "●  Ikke til stede"}
+            </Text>
+          </View>
+
+          {/* Child check out/in button */}
           <Pressable
             onPress={() => {
               toggleChildPresence(child.id, child.isPresent);
               getChildrenFromApi();
             }}
           >
-            <Text style={{ color: Colors.primaryBlack }}>
-              {child.isPresent ? "Til stede" : "Ikke til stede"}
-            </Text>
+            {child.isPresent ? (
+              <View style={style.checkInChildButton}>
+                <Feather name="log-out" size={24} color={Colors.primaryWhite} />
+                <Text style={style.checkOutText}> Sjekk ut</Text>
+              </View>
+            ) : (
+              <View style={style.checkOutChildButton}>
+                <Feather name="log-in" size={24} color={Colors.primaryWhite} />
+                <Text style={style.checkInText}> Sjekk inn</Text>
+              </View>
+            )}
           </Pressable>
         </View>
       ));
     }
   }
 
-  // Return
+  // Return ----------------------------------------------
   return (
-    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+    <LinearGradient
+      colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+      style={{ flex: 1 }}
+    >
+      {/* Header */}
       <View style={style.container}>
-        <Text style={{ color: Colors.primaryPurple, fontSize: FontSizes.H1 }}>
-          Hei {user?.name}
-        </Text>
-        {checkIfParentsGotChild()}
-        {isRefreshing ? (
-          <ActivityIndicator size={"large"} />
-        ) : (
-          <Pressable
-            onPress={() => setIsModalVisible(true)}
-            style={style.button}
-          >
-            <Text
-              style={{
-                fontSize: FontSizes.H3,
-                color: Colors.primaryWhite,
-              }}
+        <View style={style.headerTextContainer}>
+          <Text style={style.headerTitle}>Hei {user?.name}!</Text>
+          <Text style={style.headerSubTitle}>Status for dine barn</Text>
+        </View>
+
+        {/* Child list */}
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+          {checkIfParentsGotChild()}
+
+          {/* Add child button */}
+          {isRefreshing ? (
+            <ActivityIndicator size={"large"} />
+          ) : (
+            <Pressable
+              onPress={() => setIsModalVisible(true)}
+              style={style.button}
             >
-              Registrer barn
-            </Text>
-          </Pressable>
-        )}
-        {/* Modal - Can be placed into its own file if we got time */}
+              <Text
+                style={{
+                  fontSize: FontSizes.H3,
+                  color: Colors.primaryWhite,
+                }}
+              >
+                Registrer barn
+              </Text>
+            </Pressable>
+          )}
+        </ScrollView>
+        {/* Modal - Can be placed into its own file if we got time and should be moved to settings */}
         <Modal transparent visible={isModalVisible} animationType="slide">
           <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
             <LinearGradient
-              style={{ borderRadius: 24 }}
-              colors={["#FFE5EC", "#E3F2FD"]}
+              style={{ borderRadius: 20 }}
+              colors={[Colors.backgroundPink, Colors.backgroundBlue]}
             >
               <View style={[style.modalContainer, {}]}>
                 {/* Back button */}
@@ -217,12 +256,139 @@ export default function HomeScreenParent() {
   );
 }
 
-// Style
+// Style ----------------------------------------------
 const style = StyleSheet.create({
+  // Main container
   container: {
     flex: 1,
     justifyContent: "center",
+  },
+
+  headerTitle: {
+    color: Colors.primaryPurple,
+    fontSize: FontSizes.H1,
+    margin: 10,
+  },
+  headerSubTitle: {
+    color: Colors.darkGray,
+    fontSize: FontSizes.H3,
+    paddingBottom: 10,
+    fontWeight: "bold",
+  },
+  // Child card
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 28,
+    backgroundColor: Colors.primaryPurple,
+    justifyContent: "center",
     alignItems: "center",
+    margin: 10,
+    borderColor: Colors.primaryWhite,
+    borderWidth: 3,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  childInfoContentBox: {
+    width: "90%",
+    margin: 10,
+    backgroundColor: Colors.primaryWhite,
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  childNameText: {
+    fontSize: FontSizes.H2,
+    marginRight: 100,
+  },
+  headerTextContainer: {
+    marginTop: 70,
+    alignItems: "center",
+  },
+
+  avatarLetter: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H1,
+  },
+
+  // Child status
+  childPresentBox: {
+    backgroundColor: Colors.statusLightGreen,
+    margin: 20,
+    padding: 10,
+    alignSelf: "center",
+    borderRadius: 10,
+    borderColor: Colors.statusDarkGreen,
+    borderWidth: 1,
+    width: "90%",
+  },
+  childAbsentBox: {
+    backgroundColor: Colors.statusLightRed,
+    margin: 20,
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: "center",
+    borderColor: Colors.statusDarkRed,
+    borderWidth: 1,
+    width: "90%",
+  },
+  childPresentText: {
+    color: Colors.statusDarkGreen,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  childAbsentText: {
+    color: Colors.statusDarkRed,
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+
+  // Check in/out button
+  checkInChildButton: {
+    backgroundColor: Colors.statusDarkRed,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkOutChildButton: {
+    backgroundColor: Colors.statusDarkGreen,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    width: "90%",
+    padding: 5,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
+    alignSelf: "center",
+  },
+  checkInText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H3,
+  },
+  checkOutText: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H3,
+  },
+  // Modal
+  headingText: {
+    color: Colors.primaryPurple,
+    fontSize: FontSizes.H1,
   },
   modalContainer: {
     justifyContent: "center",
@@ -231,6 +397,7 @@ const style = StyleSheet.create({
   textField: {
     borderWidth: 1,
     padding: 10,
+    alignItems: "center",
     marginTop: 6,
     borderColor: Colors.lightGray,
     borderRadius: 10,
@@ -240,29 +407,8 @@ const style = StyleSheet.create({
     width: "100%",
     padding: 40,
   },
-  headingText: {
-    color: Colors.primaryPurple,
-    fontSize: FontSizes.H1,
-  },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: Colors.primaryPurple,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 10,
-  },
-  childInfoContentBox: {
-    backgroundColor: Colors.primaryWhite,
-    width: "90%",
-  },
-  childNameText: {
-    fontSize: FontSizes.H2,
-  },
   button: {
     backgroundColor: Colors.variationPurple,
-    alignSelf: "center",
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.lightGray,

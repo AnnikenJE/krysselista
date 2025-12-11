@@ -2,14 +2,17 @@
 //
 // Home screen for employees
 
+import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreenEmployee() {
   return (
-    <View style={style.container}>
-      <Text>Home employee</Text>
-      <Text>Hjem ansatt</Text>
-    </View>
+    <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
+      <View style={style.container}>
+        <Text>Home employee</Text>
+        <Text>Hjem ansatt</Text>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -20,4 +23,4 @@ const style = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-})
+});
