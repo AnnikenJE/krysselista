@@ -98,7 +98,9 @@ export default function HomeScreenParent() {
             <View style={style.avatar}>
               <Text style={style.avatarLetter}>{child.name[0]}</Text>
             </View>
-            <Text style={style.childNameText}>{child.name}</Text>
+            <View>
+              <Text style={style.childNameText}>{child.name}</Text>
+            </View>
           </View>
           <View
             style={
@@ -138,7 +140,7 @@ export default function HomeScreenParent() {
         <View style={style.headerTextContainer}>
           <Text style={style.headerTitle}>Hei {user?.name}</Text>
         </View>
-        <ScrollView>
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
           {checkIfParentsGotChild()}
           {isRefreshing ? (
             <ActivityIndicator size={"large"} />
@@ -240,7 +242,6 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
   modalContainer: {
     justifyContent: "center",
@@ -249,6 +250,7 @@ const style = StyleSheet.create({
   textField: {
     borderWidth: 1,
     padding: 10,
+    alignItems: "center",
     marginTop: 6,
     borderColor: Colors.lightGray,
     borderRadius: 10,
@@ -278,14 +280,13 @@ const style = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
   },
   childInfoContentBox: {
-    width: 350,
+    width: "90%",
   },
   childNameText: {
     fontSize: FontSizes.H2,
   },
   button: {
     backgroundColor: Colors.variationPurple,
-    alignSelf: "center",
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.lightGray,
@@ -303,6 +304,7 @@ const style = StyleSheet.create({
   },
   headerTextContainer: {
     marginTop: 70,
+    alignItems: "center",
   },
   headerTitle: {
     color: Colors.primaryPurple,
@@ -323,7 +325,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.statusDarkGreen,
     borderWidth: 2,
-    alignItems: "center",
+    width: "90%",
   },
   childAbsentBox: {
     backgroundColor: Colors.statusLightRed,
@@ -332,7 +334,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.statusDarkRed,
     borderWidth: 2,
-    alignItems: "center",
+    width: "90%",
   },
   childPresentText: {
     color: Colors.statusDarkGreen,
