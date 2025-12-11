@@ -137,76 +137,79 @@ export default function SettingsScreen() {
               <Text style={style.settingsTitle}>Språk</Text>
             </View>
 
-            <Pressable
-              style={[
-                style.languageOption,
-                selectedLanguage === "Norsk Bokmål" &&
-                  style.languageOptionSelected,
-              ]}
-              onPress={() => setSelectedLanguage("Norsk Bokmål")}
-            >
-              <Text
-                style={[
-                  style.languageOptionText,
-                  selectedLanguage === "Norsk Bokmål" &&
-                    style.languageOptionTextSelected,
-                ]}
-              >
-                Norsk Bokmål
-              </Text>
-              {selectedLanguage === "Norsk Bokmål" && (
-                <Feather name="check" size={20} color={Colors.variationWhite} />
-              )}
-            </Pressable>
+            {/* Norwegian Bokmål */}
+						<Pressable
+							style={[
+								style.languageOption,
+								selectedLanguage === "Norsk Bokmål" &&
+									style.languageOptionSelected,
+							]}
+							onPress={() => setSelectedLanguage("Norsk Bokmål")}
+						>
+							<Text
+								style={[
+									style.languageOptionText,
+									selectedLanguage === "Norsk Bokmål" &&
+										style.languageOptionTextSelected,
+								]}
+							>
+								Norsk Bokmål
+							</Text>
+							{selectedLanguage === "Norsk Bokmål" && (
+								<Feather name="check" size={20} color={Colors.variationWhite} />
+							)}
+						</Pressable>
+
+						<View style={style.languageDivider} />
+            
+            {/* Norwegian Nynorsk */}
+						<Pressable
+							style={[
+								style.languageOption,
+								selectedLanguage === "Norsk Nynorsk" &&
+									style.languageOptionSelected,
+							]}
+							onPress={() => setSelectedLanguage("Norsk Nynorsk")}
+						>
+							<Text
+								style={[
+									style.languageOptionText,
+									selectedLanguage === "Norsk Nynorsk" &&
+										style.languageOptionTextSelected,
+								]}
+							>
+								Norsk Nynorsk
+							</Text>
+							{selectedLanguage === "Norsk Nynorsk" && (
+								<Feather name="check" size={20} color={Colors.variationWhite} />
+							)}
+						</Pressable>
 
             <View style={style.languageDivider} />
 
-            <Pressable
-              style={[
-                style.languageOption,
-                selectedLanguage === "Norsk Nynorsk" &&
-                  style.languageOptionSelected,
-              ]}
-              onPress={() => setSelectedLanguage("Norsk Nynorsk")}
-            >
-              <Text
-                style={[
-                  style.languageOptionText,
-                  selectedLanguage === "Norsk Nynorsk" &&
-                    style.languageOptionTextSelected,
-                ]}
-              >
-                Norsk Nynorsk
-              </Text>
-              {selectedLanguage === "Norsk Nynorsk" && (
-                <Feather name="check" size={20} color={Colors.variationWhite} />
-              )}
-            </Pressable>
-
-            <View style={style.languageDivider} />
-
-            <Pressable
-              style={[
-                style.languageOption,
-                selectedLanguage === "English" && style.languageOptionSelected,
-              ]}
-              onPress={() => setSelectedLanguage("English")}
-            >
-              <Text
-                style={[
-                  style.languageOptionText,
-                  selectedLanguage === "English" &&
-                    style.languageOptionTextSelected,
-                ]}
-              >
-                English
-              </Text>
-              {selectedLanguage === "English" && (
-                <Feather name="check" size={20} color={Colors.variationWhite} />
-              )}
-            </Pressable>
-          </View>
-        </View>
+            {/* English */}
+						<Pressable
+							style={[
+								style.languageOption,
+								selectedLanguage === "English" && style.languageOptionSelected,
+							]}
+							onPress={() => setSelectedLanguage("English")}
+						>
+							<Text
+								style={[
+									style.languageOptionText,
+									selectedLanguage === "English" &&
+										style.languageOptionTextSelected,
+								]}
+							>
+								English
+							</Text>
+							{selectedLanguage === "English" && (
+								<Feather name="check" size={20} color={Colors.variationWhite} />
+							)}
+						</Pressable>
+					</View>
+				</View>
 
         {/* TODO: FAQ */}
 
@@ -471,26 +474,7 @@ const style = StyleSheet.create({
     marginHorizontal: 16,
   },
 
-  // Logout button
-  logoutButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16,
-    backgroundColor: Colors.statusLightRed,
-    alignItems: "center",
-    borderColor: Colors.statusDarkRed,
-    borderWidth: 2,
-    borderRadius: 12,
-    gap: 8,
-  },
-  logoutText: {
-    color: Colors.statusDarkRed,
-    fontWeight: "600",
-    fontSize: FontSizes.H3,
-  },
-
-  // FAQ
-  // TODO: FAQ Styling
+  // TODO: FAQ 
 
   // Privacy Policy
   privacyButton: {
@@ -525,7 +509,26 @@ const style = StyleSheet.create({
   privacyText: {
     fontSize: FontSizes.H4,
     color: Colors.primaryBlack,
-    lineHeight: 20,
+    lineHeight: 16,
     marginBottom: 12,
   },
+
+  // Logout button
+  logoutButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    backgroundColor: Colors.statusLightRed,
+    alignItems: "center",
+    borderColor: Colors.statusDarkRed,
+    borderWidth: 2,
+    borderRadius: 12,
+    gap: 8,
+  },
+  logoutText: {
+    color: Colors.statusDarkRed,
+    fontWeight: "600",
+    fontSize: FontSizes.H3,
+  },
+
 });
