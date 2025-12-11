@@ -5,8 +5,6 @@
 // Sources:
 // uuid: https://dev.to/tincastle/uuid-libraries-for-react-native-3mg
 
-//TODO: Design when designers says its OK
-
 // Imports ----------------------------------------------
 import {
   createChild,
@@ -152,7 +150,7 @@ export default function HomeScreenParent() {
       {/* Header */}
       <View style={style.container}>
         <View style={style.headerTextContainer}>
-          <Text style={style.headerTitle}>Hei {user?.name}!</Text>
+          <Text style={style.headerTitle}>Logget inn som {user?.name}</Text>
           <Text style={style.headerSubTitle}>Status for dine barn</Text>
         </View>
 
@@ -166,12 +164,12 @@ export default function HomeScreenParent() {
           ) : (
             <Pressable
               onPress={() => setIsModalVisible(true)}
-              style={style.button}
+              style={style.registerChildButton}
             >
               <Text
                 style={{
                   fontSize: FontSizes.H3,
-                  color: Colors.primaryWhite,
+                  color: Colors.primaryBlack,
                 }}
               >
                 Registrer barn
@@ -183,10 +181,10 @@ export default function HomeScreenParent() {
         <Modal transparent visible={isModalVisible} animationType="slide">
           <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
             <LinearGradient
-              style={{ borderRadius: 20 }}
+              style={{ borderRadius: 20, margin: 30 }}
               colors={[Colors.backgroundPink, Colors.backgroundBlue]}
             >
-              <View style={[style.modalContainer, {}]}>
+              <View style={[style.modalContainer]}>
                 {/* Back button */}
                 <View style={style.backButton}>
                   <Pressable onPress={() => setIsModalVisible(false)}>
@@ -240,7 +238,9 @@ export default function HomeScreenParent() {
                     <Text
                       style={{
                         fontSize: FontSizes.H3,
+                        fontWeight: "bold",
                         color: Colors.primaryWhite,
+                        alignSelf: "center",
                       }}
                     >
                       Legg til
@@ -266,7 +266,7 @@ const style = StyleSheet.create({
 
   headerTitle: {
     color: Colors.primaryPurple,
-    fontSize: FontSizes.H1,
+    fontSize: FontSizes.H2,
     margin: 10,
   },
   headerSubTitle: {
@@ -276,7 +276,7 @@ const style = StyleSheet.create({
     fontWeight: "bold",
   },
 
-    headerTextContainer: {
+  headerTextContainer: {
     marginTop: 70,
     alignItems: "center",
   },
@@ -388,6 +388,7 @@ const style = StyleSheet.create({
     color: Colors.primaryWhite,
     fontSize: FontSizes.H3,
   },
+
   // Modal
   headingText: {
     color: Colors.primaryPurple,
@@ -417,6 +418,10 @@ const style = StyleSheet.create({
     borderColor: Colors.lightGray,
     padding: 10,
     margin: 20,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   backButton: {
     paddingRight: 30,
@@ -426,5 +431,22 @@ const style = StyleSheet.create({
     color: Colors.darkGray,
     fontSize: FontSizes.H4,
     marginTop: 10,
+  },
+  registerChildButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    width: "90%",
+    backgroundColor: Colors.primaryWhite,
+    alignItems: "center",
+    borderColor: Colors.lightGray,
+    borderWidth: 1,
+    borderRadius: 12,
+    gap: 8,
+    margin: 10,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
   },
 });
