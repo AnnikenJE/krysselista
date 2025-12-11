@@ -105,8 +105,12 @@ export default function HomeScreenParent() {
               child.isPresent ? style.childPresentBox : style.childAbsentBox
             }
           >
-            <Text style={""}>
-              {child.isPresent ? "Til stede" : "Ikke til stede"}
+            <Text
+              style={
+                child.isPresent ? style.childPresentText : style.childAbsentText
+              }
+            >
+              {child.isPresent ? "●  Til stede" : "●  Ikke til stede"}
             </Text>
           </View>
           <Pressable
@@ -309,7 +313,9 @@ const style = StyleSheet.create({
     color: Colors.primaryWhite,
     fontSize: FontSizes.H1,
   },
-  changeChildStatusButton: {},
+  changeChildStatusButton: {
+    // TODO:
+  },
   childPresentBox: {
     backgroundColor: Colors.statusLightGreen,
     margin: 20,
@@ -317,6 +323,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.statusDarkGreen,
     borderWidth: 2,
+    alignItems: "center",
   },
   childAbsentBox: {
     backgroundColor: Colors.statusLightRed,
@@ -325,5 +332,14 @@ const style = StyleSheet.create({
     borderRadius: 10,
     borderColor: Colors.statusDarkRed,
     borderWidth: 2,
+    alignItems: "center",
+  },
+  childPresentText: {
+    color: Colors.statusDarkGreen,
+    fontWeight: "bold",
+  },
+  childAbsentText: {
+    color: Colors.statusDarkRed,
+    fontWeight: "bold",
   },
 });
