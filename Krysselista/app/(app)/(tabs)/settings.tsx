@@ -474,26 +474,7 @@ const style = StyleSheet.create({
     marginHorizontal: 16,
   },
 
-  // Logout button
-  logoutButton: {
-    flexDirection: "row",
-    justifyContent: "center",
-    padding: 16,
-    backgroundColor: Colors.statusLightRed,
-    alignItems: "center",
-    borderColor: Colors.statusDarkRed,
-    borderWidth: 2,
-    borderRadius: 12,
-    gap: 8,
-  },
-  logoutText: {
-    color: Colors.statusDarkRed,
-    fontWeight: "600",
-    fontSize: FontSizes.H3,
-  },
-
-  // FAQ
-  // TODO: FAQ Styling
+  // TODO: FAQ 
 
   // Privacy Policy
   privacyButton: {
@@ -531,4 +512,23 @@ const style = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 12,
   },
+
+  // Logout button
+  logoutButton: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: 16,
+    backgroundColor: Colors.statusLightRed,
+    alignItems: "center",
+    borderColor: Colors.statusDarkRed,
+    borderWidth: 2,
+    borderRadius: 12,
+    gap: 8,
+  },
+  logoutText: {
+    color: Colors.statusDarkRed,
+    fontWeight: "600",
+    fontSize: FontSizes.H3,
+  },
+
 });
