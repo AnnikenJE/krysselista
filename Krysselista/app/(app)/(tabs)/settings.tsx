@@ -205,7 +205,7 @@ export default function SettingsScreen() {
 					</View>
 				</View>
 
-				{/* FAQ */}
+        {/* TODO: FAQ */}
 
 				{/* Privacy Policy */}
 				<View style={style.cardContainer}>
@@ -478,7 +478,7 @@ const style = StyleSheet.create({
 		backgroundColor: Colors.statusLightRed,
 		alignItems: "center",
 		borderColor: Colors.statusDarkRed,
-		borderWidth: 4,
+		borderWidth: 2,
 		borderRadius: 12,
 		gap: 8,
 	},
@@ -489,6 +489,7 @@ const style = StyleSheet.create({
 	},
 
 	// FAQ
+  // TODO: FAQ Styling
 
 	// Privacy Policy
 	privacyButton: {
