@@ -275,6 +275,12 @@ const style = StyleSheet.create({
     paddingBottom: 10,
     fontWeight: "bold",
   },
+
+    headerTextContainer: {
+    marginTop: 70,
+    alignItems: "center",
+  },
+
   // Child card
   avatar: {
     width: 60,
@@ -283,7 +289,8 @@ const style = StyleSheet.create({
     backgroundColor: Colors.primaryPurple,
     justifyContent: "center",
     alignItems: "center",
-    margin: 10,
+    marginRight: 10,
+    marginLeft: 10,
     borderColor: Colors.primaryWhite,
     borderWidth: 3,
     shadowColor: Colors.darkGray,
@@ -305,10 +312,6 @@ const style = StyleSheet.create({
   childNameText: {
     fontSize: FontSizes.H2,
     marginRight: 100,
-  },
-  headerTextContainer: {
-    marginTop: 70,
-    alignItems: "center",
   },
 
   avatarLetter: {
@@ -356,7 +359,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "90%",
-    padding: 5,
+    padding: 10,
     shadowColor: Colors.darkGray,
     shadowRadius: 2,
     shadowOpacity: 0.5,
@@ -370,7 +373,7 @@ const style = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: "90%",
-    padding: 5,
+    padding: 10,
     shadowColor: Colors.darkGray,
     shadowRadius: 2,
     shadowOpacity: 0.5,
