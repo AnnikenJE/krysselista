@@ -18,6 +18,7 @@ import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";
+import { HeaderTitle } from "@react-navigation/elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, useEffect } from "react";
 import {
@@ -30,6 +31,7 @@ import {
   Alert,
   ActivityIndicator,
   FlatList,
+  ScrollView,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -95,19 +97,27 @@ export default function HomeScreenParent() {
         <View key={child.id} style={style.childInfoContentBox}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View style={style.avatar}>
-              <Text></Text>
+              <Text style={style.avatarLetter}>{child.name[0]}</Text>
             </View>
             <Text style={style.childNameText}>{child.name}</Text>
           </View>
-
+          <View
+            style={
+              child.isPresent ? style.childPresentBox : style.childAbsentBox
+            }
+          >
+            <Text style={""}>
+              {child.isPresent ? "Til stede" : "Ikke til stede"}
+            </Text>
+          </View>
           <Pressable
             onPress={() => {
               toggleChildPresence(child.id, child.isPresent);
               getChildrenFromApi();
             }}
           >
-            <Text style={{ color: Colors.primaryBlack }}>
-              {child.isPresent ? "Til stede" : "Ikke til stede"}
+            <Text style={style.changeChildStatusButton}>
+              {child.isPresent ? "Sjekk ut" : "Sjekk inn"}
             </Text>
           </Pressable>
         </View>
@@ -119,28 +129,30 @@ export default function HomeScreenParent() {
   return (
     <LinearGradient colors={["#FFE5EC", "#E3F2FD"]} style={{ flex: 1 }}>
       <View style={style.container}>
-        <Text style={{ color: Colors.primaryPurple, fontSize: FontSizes.H1 }}>
-          Hei {user?.name}
-        </Text>
-        {checkIfParentsGotChild()}
-        {isRefreshing ? (
-          <ActivityIndicator size={"large"} />
-        ) : (
-          <Pressable
-            onPress={() => setIsModalVisible(true)}
-            style={style.button}
-          >
-            <Text
-              style={{
-                fontSize: FontSizes.H3,
-                color: Colors.primaryWhite,
-              }}
+        <View style={style.headerTextContainer}>
+          <Text style={style.headerTitle}>Hei {user?.name}</Text>
+        </View>
+        <ScrollView>
+          {checkIfParentsGotChild()}
+          {isRefreshing ? (
+            <ActivityIndicator size={"large"} />
+          ) : (
+            <Pressable
+              onPress={() => setIsModalVisible(true)}
+              style={style.button}
             >
-              Registrer barn
-            </Text>
-          </Pressable>
-        )}
-        {/* Modal - Can be placed into its own file if we got time */}
+              <Text
+                style={{
+                  fontSize: FontSizes.H3,
+                  color: Colors.primaryWhite,
+                }}
+              >
+                Registrer barn
+              </Text>
+            </Pressable>
+          )}
+        </ScrollView>
+        {/* Modal - Can be placed into its own file if we got time and should be moved to settings */}
         <Modal transparent visible={isModalVisible} animationType="slide">
           <View style={[style.container, { backgroundColor: Colors.darkGray }]}>
             <LinearGradient
@@ -245,16 +257,21 @@ const style = StyleSheet.create({
     fontSize: FontSizes.H1,
   },
   avatar: {
-    width: 56,
-    height: 56,
+    width: 60,
+    height: 60,
     borderRadius: 28,
     backgroundColor: Colors.primaryPurple,
     justifyContent: "center",
     alignItems: "center",
     margin: 10,
+    borderColor: Colors.primaryWhite,
+    borderWidth: 3,
+    shadowColor: Colors.darkGray,
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 1, height: 2 },
   },
   childInfoContentBox: {
-    backgroundColor: Colors.primaryWhite,
     width: "90%",
   },
   childNameText: {
@@ -277,5 +294,34 @@ const style = StyleSheet.create({
     color: Colors.darkGray,
     fontSize: FontSizes.H4,
     marginTop: 10,
+  },
+  headerTextContainer: {
+    marginTop: 70,
+  },
+  headerTitle: {
+    color: Colors.primaryPurple,
+    fontSize: FontSizes.H1,
+    margin: 30,
+  },
+  avatarLetter: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H1,
+  },
+  changeChildStatusButton: {},
+  childPresentBox: {
+    backgroundColor: Colors.statusLightGreen,
+    margin: 20,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: Colors.statusDarkGreen,
+    borderWidth: 2,
+  },
+  childAbsentBox: {
+    backgroundColor: Colors.statusLightRed,
+    margin: 20,
+    padding: 10,
+    borderRadius: 10,
+    borderColor: Colors.statusDarkRed,
+    borderWidth: 2,
   },
 });
