@@ -2,7 +2,6 @@
 //
 // User interface for parents and employees
 
-
 export interface UserData {
   id: string;
   name: string;

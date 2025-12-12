@@ -1,3 +1,8 @@
+//
+//
+// Authentication for logging in and creating user
+
+// Imports --------------------------------------------------------------------------
 import { useAuthSession } from "@/providers/authenticationContext";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
@@ -13,9 +18,9 @@ import {
   View,
 } from "react-native";
 
-// Main Authentication for login and registration
-// State variables
+// Authentication
 const Authentication = () => {
+  // Variables
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +30,9 @@ const Authentication = () => {
   const [isEmployee, setIsEmployee] = useState<boolean | null>(null);
   const { signIn, createUser } = useAuthSession();
 
+  // Return --------------------------------------------------------------------------
   return (
+    // TODO: Do not remove comment unless you know how to fix the bug in web view
     // Prevents keyboard going over textfields
     /* 	<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -229,9 +236,10 @@ const Authentication = () => {
   );
 };
 
+// Exports
 export default Authentication;
 
-// Styling for the different components
+// Styes --------------------------------------------------------------------------
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,

@@ -2,11 +2,14 @@
 //
 // Home screen for employees
 
+// Imports --------------------------------------------------------------------------
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/theme/colors";
 
+// HomeScreenEmployee --------------------------------------------------------------------------
 export default function HomeScreenEmployee() {
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -20,7 +23,7 @@ export default function HomeScreenEmployee() {
   );
 }
 
-// Midlertidig
+// Styles --------------------------------------------------------------------------
 const style = StyleSheet.create({
   container: {
     flex: 1,

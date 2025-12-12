@@ -2,11 +2,14 @@
 //
 // Children page for employees to view all children
 
+// Imports --------------------------------------------------------------------------
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/theme/colors";
 
+// ChidrenScreen --------------------------------------------------------------------------
 export default function ChildrenScreen() {
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -19,7 +22,7 @@ export default function ChildrenScreen() {
   );
 }
 
-// Midlertidig
+// Styles --------------------------------------------------------------------------
 const style = StyleSheet.create({
   container: {
     flex: 1,

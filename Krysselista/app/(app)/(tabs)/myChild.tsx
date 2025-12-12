@@ -1,36 +1,38 @@
 //
-// MyChild page for the users child info
 //
+// MyChild page for the users child info
 
-import { useState, useCallback } from "react";
+// Imports --------------------------------------------------------------------------
+import { useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { getChildBId, getChildrenByUserId } from "@/api/childrenApi";
+import { getChildrenByUserId } from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import { useAuthSession } from "@/providers/authenticationContext";
 import Feather from "@expo/vector-icons/Feather";
 
+// MyChild --------------------------------------------------------------------------
 export default function MyChild() {
+  // Variables
   const { user } = useAuthSession();
   const [children, setChildren] = useState<ChildData[]>([]);
 
-  //gather children from API if any
+  // Functions
   async function getChildrenFromApi() {
     if (!user?.id) return;
-
-    //gets all the children connected to users ID and updates state with the available children
     const result = await getChildrenByUserId(user.id);
     setChildren(result ?? []);
   }
 
-  // WHen user goes to this screen, load/update children data
+  // UseFocusEffects
   useFocusEffect(() => {
     getChildrenFromApi();
   });
 
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -98,6 +100,7 @@ export default function MyChild() {
   );
 }
 
+// Styles --------------------------------------------------------------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
