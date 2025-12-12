@@ -2,6 +2,7 @@
 //
 // Settings page
 
+// Imports --------------------------------------------------------------------------
 import {
   StyleSheet,
   Text,
@@ -18,25 +19,27 @@ import { Colors } from "@/theme/colors";
 import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
+// SettingsScreen --------------------------------------------------------------------------
 export default function SettingsScreen() {
+
+// Variables
   const { user, signOut } = useAuthSession();
   const [modalVisible, setModalVisible] = useState(false);
   const [editEmail, setEditEmail] = useState(user?.email || "");
   const [editPhone, setEditPhone] = useState(user?.phone || "");
-
   const [selectedLanguage, setSelectedLanguage] = useState("Norsk Bokmål");
-
   const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-
   const isEmployee = Boolean(user?.isEmployee);
   const initials = user?.name ? user?.name.charAt(0).toUpperCase() : "?";
 
+  // Functions
   const handleSaveChanges = () => {
     setModalVisible(false);
     // TODO: Implement save changes functionality
     setModalVisible(false);
   };
 
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -283,7 +286,7 @@ export default function SettingsScreen() {
   );
 }
 
-// Styles
+// Styles --------------------------------------------------------------------------
 const style = StyleSheet.create({
   container: {
     flex: 1,
