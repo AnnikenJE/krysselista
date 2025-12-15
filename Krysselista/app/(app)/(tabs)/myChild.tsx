@@ -27,7 +27,7 @@ export default function MyChild() {
     setChildren(result ?? []);
   }
 
-  // UseFocusEffects
+  // Effect called when entering the screen
   useFocusEffect(() => {
     getChildrenFromApi();
   });
@@ -38,7 +38,7 @@ export default function MyChild() {
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
       style={{ flex: 1 }}
     >
-      <ScrollView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.container}>
           {children.length === 0 ? (
             <Text>Du har ingen registrerte barn.</Text>
