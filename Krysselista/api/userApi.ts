@@ -34,34 +34,24 @@ export async function getUser(userId: string) {
   }
 }
 
-// Update user email
-export async function updateUserEmail(userId: string, email: string) {
+// Update user
+export async function updateUser(
+  userId: string,
+  email: string,
+  phone: string,
+  childId: string
+) {
   try {
-    await updateDoc(doc(db, "users", userId), { email });
-    console.log("Successfully updated email for user: ", userId);
-  } catch (error) {
-    console.error("Error updating email: ", error);
-  }
-}
+    const userRef = doc(db, "users", userId);
 
-// Update user phone
-export async function updateUserPhone(userId: string, phone: string) {
-  try {
-    await updateDoc(doc(db, "users", userId), { phone });
-    console.log("Successfully updated phone for user: ", userId);
-  } catch (error) {
-    console.error("Error updating phone: ", error);
-  }
-}
-
-// Add child to user
-export async function addChildToUser(userId: string, childId: string) {
-  try {
-    await updateDoc(doc(db, "users", userId), {
+    await updateDoc(userRef, {
+      email: email,
+      phone: phone,
       children: arrayUnion(childId),
     });
-    console.log("Successfully added child for user: ", userId);
+
+    console.log("Successfully updated ");
   } catch (error) {
-    console.error("Error adding child: ", error);
+    console.error("Error! Could not update user: ", error);
   }
 }

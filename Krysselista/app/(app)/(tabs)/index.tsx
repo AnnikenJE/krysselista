@@ -1,26 +1,9 @@
 //
 //
-// Default tab index. Redirects to correct home based on user type
-
-import { useAuthSession } from "@/providers/authenticationContext";
-import { useRouter } from "expo-router";
-import { useEffect } from "react";
+// Empty index file to prevent automatic redirection to /homeParent or /homeEmployee
+// as this is handled in the _layout.tsx file.
 
 // TODO: Bug where this site shows
 export default function TabsIndex() {
-    const { user, isLoading } = useAuthSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!isLoading) {
-            const isEmployee = Boolean(user?.isEmployee);
-            if (isEmployee) {
-                router.replace("/(app)/(tabs)/homeEmployee");
-            } else {
-                router.replace("/(app)/(tabs)/homeParent");
-            }
-        }
-    }, [isLoading, user?.isEmployee, router]);
-
-    return null;
+  return null;
 }

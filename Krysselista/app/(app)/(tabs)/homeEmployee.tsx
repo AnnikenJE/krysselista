@@ -4,13 +4,8 @@
 
 // Imports --------------------------------------------------------------------------
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Colors } from "@/theme/colors";
-import { useAuthSession } from "@/providers/authenticationContext";
-import { useState, useEffect } from "react";
-import { getAllChildrenById } from "@/api/childrenApi";
-import { ChildData } from "@/interfaces/child";
-import { FontSizes } from "@/theme/fontSize";
 
 // HomeScreenEmployee --------------------------------------------------------------------------
 export default function HomeScreenEmployee() {
