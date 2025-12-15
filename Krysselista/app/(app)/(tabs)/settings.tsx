@@ -2,7 +2,6 @@
 //
 // Settings page
 
-// Imports --------------------------------------------------------------------------
 import {
 	StyleSheet,
 	Text,
@@ -21,128 +20,172 @@ import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { updateUserEmail, updateUserPhone } from "@/api/userApi";
 
-// SettingsScreen --------------------------------------------------------------------------
 export default function SettingsScreen() {
+	const { user, signOut } = useAuthSession();
+	const [modalVisible, setModalVisible] = useState(false);
+	const [editEmail, setEditEmail] = useState(user?.email || "");
+	const [editPhone, setEditPhone] = useState(user?.phone || "");
 
-// Variables
-  const { user, signOut } = useAuthSession();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editEmail, setEditEmail] = useState(user?.email || "");
-  const [editPhone, setEditPhone] = useState(user?.phone || "");
-  const [selectedLanguage, setSelectedLanguage] = useState("Norsk Bokmål");
-  const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
-  const isEmployee = Boolean(user?.isEmployee);
-  const initials = user?.name ? user?.name.charAt(0).toUpperCase() : "?";
+	const [selectedLanguage, setSelectedLanguage] = useState("Norsk Bokmål");
+	const [privacyModalVisible, setPrivacyModalVisible] = useState(false);
 
-  // Functions
-  const handleSaveChanges = () => {
-    setModalVisible(false);
-    // TODO: Implement save changes functionality
-    setModalVisible(false);
-  };
+	const isEmployee = Boolean(user?.isEmployee);
+	const initials = user?.name ? user?.name.charAt(0).toUpperCase() : "?";
 
-  // Return --------------------------------------------------------------------------
-  return (
-    <LinearGradient
-      colors={[Colors.backgroundPink, Colors.backgroundBlue]}
-      style={{ flex: 1 }}
-    >
-      <View style={style.container}>
-        {/* Employee profile with editing functionality */}
-        {isEmployee && (
-          <View style={style.cardContainer}>
-            <Pressable
-              style={style.profileCard}
-              onPress={() => setModalVisible(true)}
-            >
-              <View style={style.avatar}>
-                <Text style={style.avatarText}>{initials}</Text>
-              </View>
-              <View style={style.profileInfo}>
-                <Text style={style.profileName}>{user?.name}</Text>
-                <Text style={style.profileRole}>Ansatt</Text>
-              </View>
-              <Feather name="chevron-right" size={24} color={Colors.darkGray} />
-            </Pressable>
-          </View>
-        )}
+	// Updates local state when data is changed
+	useEffect(() => {
+		setEditEmail(user?.email || "");
+		setEditPhone(user?.phone || "");
+	}, [user?.id]);
 
-        {/* Edit profile modal */}
-        {/* TODO: Modal needs to be moved to components */}
-        <Modal visible={modalVisible} transparent={true} animationType="fade">
-          <View style={style.modalOverlay}>
-            <LinearGradient
-              colors={[Colors.backgroundPink, Colors.backgroundBlue]}
-              style={style.modalContent}
-            >
-              <View style={style.modalHeader}>
-                <Pressable onPress={handleSaveChanges}>
-                  <Feather name="x" size={24} color={Colors.darkGray} />
-                </Pressable>
-              </View>
+	// Auto-save changes when modal is closed or after delay
+	useEffect(() => {
+		if (!modalVisible) return;
 
-              {/* Avatar and name */}
-              <View style={style.modalAvatarContainer}>
-                <View style={style.modalAvatar}>
-                  <Text style={style.modalAvatarText}>{initials}</Text>
-                </View>
-                <Text style={style.modalName}>{user?.name}</Text>
-              </View>
+		const hasEmailChanged = editEmail !== user?.email;
+		const hasPhoneChanged = editPhone !== user?.phone;
 
-              {/* Telephone field */}
-              <View style={style.fieldRow}>
-                <View style={style.iconContainer}>
-                  <Feather
-                    name="phone"
-                    size={20}
-                    color={Colors.primaryPurple}
-                  />
-                </View>
-                <View style={style.fieldContent}>
-                  <Text style={style.fieldLabel}>Telefon</Text>
-                  <TextInput
-                    style={style.fieldInput}
-                    value={editPhone}
-                    onChangeText={setEditPhone}
-                    placeholder="Telefonnummer"
-                    placeholderTextColor={Colors.lightGray}
-                  />
-                </View>
-                <Feather name="edit-2" size={16} color={Colors.primaryPurple} />
-              </View>
+		if ((hasEmailChanged || hasPhoneChanged) && user?.id) {
+			const saveTimer = setTimeout(async () => {
+				if (hasEmailChanged) await updateUserEmail(user.id, editEmail);
+				if (hasPhoneChanged) await updateUserPhone(user.id, editPhone);
+			}, 800);
 
-              {/* E-post field */}
-              <View style={style.fieldRow}>
-                <View style={style.iconContainer}>
-                  <Feather name="mail" size={20} color={Colors.primaryPurple} />
-                </View>
-                <View style={style.fieldContent}>
-                  <Text style={style.fieldLabel}>E-post</Text>
-                  <TextInput
-                    style={style.fieldInput}
-                    value={editEmail}
-                    onChangeText={setEditEmail}
-                    placeholder="E-post"
-                    placeholderTextColor={Colors.lightGray}
-                  />
-                </View>
-                <Feather name="edit-2" size={16} color={Colors.primaryPurple} />
-              </View>
-            </LinearGradient>
-          </View>
-        </Modal>
+			return () => clearTimeout(saveTimer);
+		}
+	}, [editEmail, editPhone, modalVisible, user?.id]);
 
-        {/* Language selection */}
-        <View style={style.cardContainer}>
-          <View style={style.settingsSection}>
-            <View style={style.settingsHeader}>
-              <View style={style.iconContainer}>
-                <Feather name="globe" size={20} color={Colors.primaryPurple} />
-              </View>
-              <Text style={style.settingsTitle}>Språk</Text>
-            </View>
+	const handleCloseModal = () => {
+		setModalVisible(false);
+	};
 
-            {/* Norwegian Bokmål */}
+ const handleLanguageChange = (language: string) => {
+    if (language !== "Norsk Bokmål") {
+        Alert.alert("Info", "Kun Norsk Bokmål er tilgjengelig for øyeblikket");
+        return;
+    }
+    setSelectedLanguage(language);
+};
+
+	return (
+		<LinearGradient
+			colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+			style={{ flex: 1 }}
+		>
+			<View style={style.container}>
+				{/* Employee profile with editing functionality */}
+				{isEmployee && (
+					<View style={style.cardContainer}>
+						<Pressable
+							style={style.profileCard}
+							onPress={() => setModalVisible(true)}
+						>
+							<View style={style.avatar}>
+								<Text style={style.avatarText}>{initials}</Text>
+							</View>
+							<View style={style.profileInfo}>
+								<Text
+									style={style.profileName}
+									numberOfLines={2}
+									ellipsizeMode="tail"
+								>
+									{user?.name}
+								</Text>
+								<Text
+									style={style.profileRole}
+									numberOfLines={2}
+									ellipsizeMode="tail"
+								>
+									Ansatt
+								</Text>
+							</View>
+							<Feather name="chevron-right" size={24} color={Colors.darkGray} />
+						</Pressable>
+					</View>
+				)}
+
+				{/* Edit profile modal */}
+				{/* TODO: Modal needs to be moved to components */}
+				<Modal visible={modalVisible} transparent={true} animationType="fade">
+					<View style={style.modalOverlay}>
+						<LinearGradient
+							colors={[Colors.backgroundPink, Colors.backgroundBlue]}
+							style={style.modalContent}
+						>
+							<View style={style.modalHeader}>
+								<Pressable onPress={handleCloseModal}>
+									<Feather name="x" size={24} color={Colors.darkGray} />
+								</Pressable>
+							</View>
+
+							{/* Avatar and name */}
+							<View style={style.modalAvatarContainer}>
+								<View style={style.modalAvatar}>
+									<Text style={style.modalAvatarText}>{initials}</Text>
+								</View>
+								<Text
+									style={style.modalName}
+									numberOfLines={2}
+									ellipsizeMode="tail"
+								>
+									{user?.name}
+								</Text>
+							</View>
+
+							{/* Telephone field */}
+							<View style={style.fieldRow}>
+								<View style={style.iconContainer}>
+									<Feather
+										name="phone"
+										size={20}
+										color={Colors.primaryPurple}
+									/>
+								</View>
+								<View style={style.fieldContent}>
+									<Text style={style.fieldLabel}>Telefon</Text>
+									<TextInput
+										style={style.fieldInput}
+										value={editPhone}
+										onChangeText={setEditPhone}
+										placeholder="Telefonnummer"
+										placeholderTextColor={Colors.lightGray}
+									/>
+								</View>
+								<Feather name="edit-2" size={16} color={Colors.primaryPurple} />
+							</View>
+
+							{/* E-post field */}
+							<View style={style.fieldRow}>
+								<View style={style.iconContainer}>
+									<Feather name="mail" size={20} color={Colors.primaryPurple} />
+								</View>
+								<View style={style.fieldContent}>
+									<Text style={style.fieldLabel}>E-post</Text>
+									<TextInput
+										style={style.fieldInput}
+										value={editEmail}
+										onChangeText={setEditEmail}
+										placeholder="E-post"
+										placeholderTextColor={Colors.lightGray}
+									/>
+								</View>
+								<Feather name="edit-2" size={16} color={Colors.primaryPurple} />
+							</View>
+						</LinearGradient>
+					</View>
+				</Modal>
+
+				{/* Language selection */}
+				<View style={style.cardContainer}>
+					<View style={style.settingsSection}>
+						<View style={style.settingsHeader}>
+							<View style={style.iconContainer}>
+								<Feather name="globe" size={20} color={Colors.primaryPurple} />
+							</View>
+							<Text style={style.settingsTitle}>Språk</Text>
+						</View>
+
+						{/* Norwegian Bokmål */}
 						<Pressable
 							style={[
 								style.languageOption,
@@ -288,7 +331,7 @@ export default function SettingsScreen() {
 	);
 }
 
-// Styles --------------------------------------------------------------------------
+// Styles
 const style = StyleSheet.create({
 	container: {
 		flex: 1,
