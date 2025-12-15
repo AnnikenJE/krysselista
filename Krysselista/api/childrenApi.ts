@@ -38,7 +38,7 @@ export async function createChild(userdId: string, child: ChildData) {
 }
 
 // Get child by ID
-export async function getChildBId(childID: string) {
+export async function getChildById(childID: string) {
   try {
     const child = await getDoc(doc(db, "children", childID));
     return {
