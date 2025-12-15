@@ -317,13 +317,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#b5b4fdff",
   },
   employeeSelected: {
-    backgroundColor: "#7e67ffff",
+    backgroundColor: "#5c3fffff",
+    borderWidth: 1,
+    borderColor: Colors.primaryBlack,
   },
   parentDefault: {
-    backgroundColor: "#9ed9f9ff",
+    backgroundColor: "#84b7d2ff",
   },
   parentSelected: {
-    backgroundColor: "#38BDF8",
+    backgroundColor: "#1392c9ff",
+    borderWidth: 1,
+    borderColor: Colors.primaryBlack,
   },
 
   userTypeText: {
