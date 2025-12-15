@@ -73,6 +73,7 @@ export function AuthSessionProvider({ children }: { children: ReactNode }) {
 					// Fetch the app-specific user profile from Firestore using UID
 					const profile = await getUser(firebaseUser.uid);
 					if (profile) {
+            
 						setUserProfile(profile);
 						console.log("Fetched user profile:", profile);
 					} else {

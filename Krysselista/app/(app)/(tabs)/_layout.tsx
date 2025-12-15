@@ -33,7 +33,7 @@ export default function TabBar() {
 				}}
 			/>
 
-			{/* Home tabs */}
+			{/*Home tabs*/}
 			<Tabs.Screen
 				name="homeEmployee"
 				options={{
@@ -69,7 +69,6 @@ export default function TabBar() {
 			/>
 
 			{/* All children tab for employees */}
-
 			<Tabs.Screen
 				name="children"
 				options={{

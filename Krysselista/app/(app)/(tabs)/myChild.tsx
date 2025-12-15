@@ -6,7 +6,7 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { getChildBId } from "@/api/childrenApi";
+import { getChildById } from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
@@ -24,7 +24,7 @@ export default function MyChild() {
     const list: ChildData[] = [];
 
     for (let i = 0; i < childIds.length; i++) {
-      const child = await getChildBId(childIds[i]);
+      const child = await getChildById(childIds[i]);
       if (child) list.push(child);
     }
     // Updateting state
