@@ -2,11 +2,12 @@
 //
 // User API connection to firebase.
 
+// imports --------------------------------------------------------------------------
 import { UserData } from "@/interfaces/user";
 import { arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
-// Functions
+// Functions -------------------------------------------------------------------------
 
 // Create user
 // TODO: Is not used in authAPI.

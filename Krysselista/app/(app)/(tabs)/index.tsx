@@ -6,6 +6,7 @@ import { useAuthSession } from "@/providers/authenticationContext";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 
+// TODO: Bug where this site shows
 export default function TabsIndex() {
     const { user, isLoading } = useAuthSession();
     const router = useRouter();

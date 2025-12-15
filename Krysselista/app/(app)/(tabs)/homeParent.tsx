@@ -5,7 +5,7 @@
 // Sources:
 // uuid: https://dev.to/tincastle/uuid-libraries-for-react-native-3mg
 
-// Imports ----------------------------------------------
+// Imports --------------------------------------------------------------------------
 import {
   createChild,
   getChildrenByUserId,
@@ -31,7 +31,7 @@ import {
 } from "react-native";
 import uuid from "react-native-uuid";
 
-// HomeScreenParent ----------------------------------------------
+// HomeScreenParent --------------------------------------------------------------------------
 export default function HomeScreenParent() {
   // Variables
   const { user } = useAuthSession();
@@ -47,7 +47,7 @@ export default function HomeScreenParent() {
     getChildrenFromApi();
   }, []);
 
-  // Functions  ----------------------------------------------
+  // Functions  --------------------------------------------------------------------------
   async function getChildrenFromApi() {
     setIsRefreshing(true);
     if (user?.id) {
@@ -141,7 +141,7 @@ export default function HomeScreenParent() {
     }
   }
 
-  // Return ----------------------------------------------
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
@@ -256,7 +256,7 @@ export default function HomeScreenParent() {
   );
 }
 
-// Style ----------------------------------------------
+// Styles --------------------------------------------------------------------------
 const style = StyleSheet.create({
   // Main container
   container: {

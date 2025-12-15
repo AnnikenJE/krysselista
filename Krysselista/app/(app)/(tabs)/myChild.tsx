@@ -1,99 +1,98 @@
 //
-// MyChild page for the users child info
 //
+// MyChild page for the users child info
 
-import { useState, useCallback } from "react";
+// Imports --------------------------------------------------------------------------
+import { useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { getChildById } from "@/api/childrenApi";
+import { getChildrenByUserId } from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { Colors } from "@/theme/colors";
 import { FontSizes } from "@/theme/fontSize";
 import { useAuthSession } from "@/providers/authenticationContext";
 import Feather from "@expo/vector-icons/Feather";
 
+// MyChild --------------------------------------------------------------------------
 export default function MyChild() {
+  // Variables
   const { user } = useAuthSession();
   const [children, setChildren] = useState<ChildData[]>([]);
 
-  const childIds = user?.children ?? [];
-
-  // Load children data
+  // Functions
   async function getChildrenFromApi() {
-    const list: ChildData[] = [];
-
-    for (let i = 0; i < childIds.length; i++) {
-      const child = await getChildById(childIds[i]);
-      if (child) list.push(child);
-    }
-    // Updateting state
-    setChildren(list);
+    if (!user?.id) return;
+    const result = await getChildrenByUserId(user.id);
+    setChildren(result ?? []);
   }
 
-  // WHen user goes to this screen, load/update children data
+  // Effect called when entering the screen
   useFocusEffect(() => {
     getChildrenFromApi();
   });
 
+  // Return --------------------------------------------------------------------------
   return (
     <LinearGradient
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
       style={{ flex: 1 }}
     >
-      <ScrollView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
         <View style={styles.container}>
           {children.length === 0 ? (
             <Text>Du har ingen registrerte barn.</Text>
           ) : (
-            children.map((child) => (
-              <View key={child.id} style={styles.childSection}>
-                <View style={styles.avatar}></View>
+            <>
+              {children.map((child) => (
+                <View key={child.id} style={styles.childSection}>
+                  <View style={styles.avatar}>
+                    <Text style={styles.avatarLetter}>{child.name[0]}</Text>
+                  </View>
 
-                <Text style={styles.childName}>{child.name}</Text>
+                  <Text style={styles.childName}>{child.name}</Text>
 
-                <View
-                  style={[
-                    styles.checkStatus,
-                    child.isPresent ? styles.checkedIn : styles.checkedOut,
-                  ]}
-                >
-                  <Text style={styles.checkStatusText}>
-                    {child.isPresent ? "Til stede" : "Ikke til stede"}
-                  </Text>
+                  <View
+                    style={[
+                      styles.checkStatus,
+                      child.isPresent ? styles.checkedIn : styles.checkedOut,
+                    ]}
+                  >
+                    <Text style={styles.checkStatusText}>
+                      {child.isPresent ? "Til stede" : "Ikke til stede"}
+                    </Text>
+                  </View>
                 </View>
+              ))}
 
-                <View style={styles.parentContainer}>
-                  <Text style={styles.parentTitle}>Foresatte</Text>
+              <View style={styles.parentContainer}>
+                <Text style={styles.parentTitle}>Foresatte</Text>
 
-                  <View style={styles.parentDetailContainer}>
-                    <Text style={styles.parentName}>{user?.name}</Text>
+                <View style={styles.parentDetailContainer}>
+                  <Text style={styles.parentName}>{user?.name}</Text>
 
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        marginBottom: 4,
-                      }}
-                    >
-                      <Feather name="phone" size={20} color="black" />
-                      <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
-                        {user?.phone}
-                      </Text>
-                    </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginBottom: 4,
+                    }}
+                  >
+                    <Feather name="phone" size={20} color="black" />
+                    <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
+                      {user?.phone}
+                    </Text>
+                  </View>
 
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                      <Feather name="mail" size={20} color="black" />
-                      <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
-                        {user?.email}
-                      </Text>
-                    </View>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Feather name="mail" size={20} color="black" />
+                    <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
+                      {user?.email}
+                    </Text>
                   </View>
                 </View>
               </View>
-            ))
+            </>
           )}
         </View>
       </ScrollView>
@@ -101,6 +100,7 @@ export default function MyChild() {
   );
 }
 
+// Styles --------------------------------------------------------------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -112,17 +112,26 @@ const styles = StyleSheet.create({
   childSection: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 50,
   },
 
   avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 60,
+    height: 60,
+    borderRadius: 28,
     backgroundColor: Colors.primaryPurple,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
+    margin: 10,
+    borderColor: Colors.primaryWhite,
+    borderWidth: 3,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  avatarLetter: {
+    color: Colors.primaryWhite,
+    fontSize: FontSizes.H1,
   },
 
   childName: {

@@ -2,7 +2,7 @@
 //
 // Children API connection to firebase.
 
-// Imports
+// Imports --------------------------------------------------------------------------
 
 import {
   arrayRemove,
@@ -20,7 +20,7 @@ import {
 import { db } from "@/firebaseConfig";
 import { ChildData } from "@/interfaces/child";
 
-// Functions
+// Functions--------------------------------------------------------------------------
 
 // Create child
 export async function createChild(userdId: string, child: ChildData) {
