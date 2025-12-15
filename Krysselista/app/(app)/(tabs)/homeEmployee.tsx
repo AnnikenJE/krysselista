@@ -4,7 +4,7 @@
 
 // Imports --------------------------------------------------------------------------
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import { Colors } from "@/theme/colors";
 import { useState, useEffect } from "react";
 import { getAllChildrenById } from "@/api/childrenApi";
