@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   parentContainer: {
     width: "85%",
     backgroundColor: Colors.primaryWhite,
-    borderRadius: 16,
+    borderRadius: 20,
     padding: 20,
   },
 
