@@ -118,3 +118,23 @@ export async function toggleChildPresence(
     console.error("Error! Could not update child: ", error);
   }
 }
+
+// Search children by name
+export async function getSearchedChildren(searchTerm: string) {
+  try {
+    const endTerm = searchTerm + "\uf8ff";
+    const querySnapshot = await getDocs(
+      query(
+        collection(db, "children"),
+        where("name", ">=", searchTerm),
+        where("name", "<=", endTerm)
+      )
+    );
+    return querySnapshot.docs.map((doc) => {
+      return { ...doc.data(), id: doc.id } as ChildData;
+    });
+  } catch (error) {
+    console.error("Error searching children: ", error);
+    return [] as ChildData[];
+  }
+}

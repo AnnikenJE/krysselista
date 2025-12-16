@@ -38,7 +38,7 @@ export default function MyChild() {
       colors={[Colors.backgroundPink, Colors.backgroundBlue]}
       style={{ flex: 1 }}
     >
-        <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+      <ScrollView contentContainerStyle={{ paddingTop: 10 }}>
         <View style={styles.container}>
           {children.length === 0 ? (
             <Text>Du har ingen registrerte barn.</Text>
@@ -72,11 +72,7 @@ export default function MyChild() {
                   <Text style={styles.parentName}>{user?.name}</Text>
 
                   <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginBottom: 4,
-                    }}
+                    style={styles.contactDetails}
                   >
                     <Feather name="phone" size={20} color="black" />
                     <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
@@ -115,9 +111,9 @@ const styles = StyleSheet.create({
   },
 
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 28,
+    width: 80,
+    height: 80,
+    borderRadius: 48,
     backgroundColor: Colors.primaryPurple,
     justifyContent: "center",
     alignItems: "center",
@@ -141,7 +137,7 @@ const styles = StyleSheet.create({
   },
 
   checkStatus: {
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
     marginBottom: 25,
@@ -157,7 +153,7 @@ const styles = StyleSheet.create({
 
   checkStatusText: {
     fontSize: FontSizes.H4,
-    color: Colors.primaryBlack,
+    color: Colors.primaryWhite,
   },
 
   parentContainer: {
@@ -165,6 +161,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryWhite,
     borderRadius: 20,
     padding: 20,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 
   parentTitle: {
@@ -175,18 +175,24 @@ const styles = StyleSheet.create({
 
   parentDetailContainer: {
     backgroundColor: Colors.variationWhite,
-    padding: 16,
-    borderRadius: 14,
+    padding: 15,
+    borderRadius: 15,
   },
 
   parentName: {
     fontSize: FontSizes.H3,
-    marginBottom: 4,
+    marginBottom: 10,
+    paddingBottom: 5,
   },
 
   parentDetail: {
     fontSize: FontSizes.H4,
     color: Colors.darkGray,
-    marginBottom: 4,
+    marginBottom: 5,
+  },
+  contactDetails: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
   },
 });
