@@ -54,14 +54,7 @@ const Authentication = () => {
         </View>
         <View style={styles.mainContainer}>
           {isSignUp && (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                gap: 16,
-                marginBottom: 24,
-              }}
-            >
+            <View style={styles.usertypeContainer}>
               <Pressable
                 style={[
                   styles.userTypeButton,
@@ -266,48 +259,51 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     width: "110%",
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     paddingTop: 32,
-    gap: 16,
+    gap: 15,
     position: "absolute",
     bottom: 20,
-    marginBottom: 24,
+    marginBottom: 25,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 
   primaryButton: {
     paddingHorizontal: 14,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: 8,
     backgroundColor: Colors.primaryWhite,
     justifyContent: "center",
     alignItems: "center",
   },
 
-  secondaryButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: Colors.mediumGray,
-  },
-
   textFieldContainer: {
     width: "100%",
-    paddingTop: 16,
+    paddingTop: 15,
   },
 
   textField: {
-    borderWidth: 0.165,
+    borderWidth: 1,
     padding: 10,
-    marginTop: 6,
-    borderColor: Colors.mediumGray,
-    borderRadius: 10,
+    marginTop: 8,
+    borderColor: Colors.lightGray,
+    borderRadius: 8,
     backgroundColor: Colors.variationWhite,
   },
 
+  usertypeContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 20,
+    marginBottom: 20,
+  },
+
   userTypeButton: {
-    paddingVertical: 24,
-    paddingHorizontal: 24,
+    paddingVertical: 20,
+    paddingHorizontal: 25,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.lightGray,
