@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "@/theme/colors";
 import { useEffect, useState } from "react";
-import { getAllChildrenById, getSearchedChildren } from "@/api/childrenApi";
+import { getAllChildrenById } from "@/api/childrenApi";
 import { ChildData } from "@/interfaces/child";
 import { FontSizes } from "@/theme/fontSize";
 import Feather from "@expo/vector-icons/Feather";

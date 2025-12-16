@@ -2,18 +2,16 @@
 //
 // Colors
 
-import { Background } from "@react-navigation/elements";
-
 export const Colors = {
   // Primary colors
-  primaryPurple: "#745FEF", 
+  primaryPurple: "#745FEF",
   primaryBlack: "#121212",
   primaryWhite: "#F9FAFB",
 
   // Gray
   lightGray: "#E5E7EB", // Border on searchbar etc.
-  mediumGray: "#99A1AF", 
-  darkGray: "#717182", 
+  mediumGray: "#99A1AF",
+  darkGray: "#717182",
 
   // Variations of primary colors
   variationPurple: "#9747FF", // Chosen navigaion bar item
@@ -27,5 +25,5 @@ export const Colors = {
 
   // Background
   backgroundPink: "#FFE5EC",
-  backgroundBlue: "#E3F2FD"
+  backgroundBlue: "#E3F2FD",
 };

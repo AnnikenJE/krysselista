@@ -1,6 +1,8 @@
 //
 //
-// User API connection to firebase.
+// User API - Connection to firebase.
+
+// Note: Not all functions are used.
 
 // imports --------------------------------------------------------------------------
 import { UserData } from "@/interfaces/user";

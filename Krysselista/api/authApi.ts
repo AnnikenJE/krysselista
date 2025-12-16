@@ -1,6 +1,6 @@
 //
 //
-//  authApi.ts - Api components for authentication
+//  authApi.ts - API for authentication
 
 // Imports --------------------------------------------------------------------------
 import { auth, db } from "@/firebaseConfig";
