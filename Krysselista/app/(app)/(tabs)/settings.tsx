@@ -176,6 +176,8 @@ export default function SettingsScreen() {
 				</Modal>
 
 				{/* Language selection */}
+        {/* If onPress changes to setSelectedLanguage when languages
+            are implemented, it will show another language as selected. */}
 				<View style={style.cardContainer}>
 					<View style={style.settingsSection}>
 						<View style={style.settingsHeader}>
