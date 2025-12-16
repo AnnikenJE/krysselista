@@ -1,9 +1,10 @@
 //
 //
-// Children API connection to firebase.
+// Children API - Connection to firebase.
+
+// Note: Not all functions are used.
 
 // Imports --------------------------------------------------------------------------
-
 import {
   arrayRemove,
   collection,

@@ -49,9 +49,18 @@ export default function MyChild() {
                   <View style={styles.avatar}>
                     <Text style={styles.avatarLetter}>{child.name[0]}</Text>
                   </View>
+                  <View style={styles.childDetailContainer}>
+                    <Text style={styles.childName}>{child.name}</Text>
+                    <View style={styles.childInformationWrapper}>
+                      <Text style={styles.childInformationTitle}>Født:</Text>
+                      <Text>{child.birthday}</Text>
+                    </View>
 
-                  <Text style={styles.childName}>{child.name}</Text>
-
+                    <Text style={styles.childInformationTitle}>
+                      Helse informasjon:
+                    </Text>
+                    <Text>{child.healthInfo}</Text>
+                  </View>
                   <View
                     style={[
                       styles.checkStatus,
@@ -71,9 +80,7 @@ export default function MyChild() {
                 <View style={styles.parentDetailContainer}>
                   <Text style={styles.parentName}>{user?.name}</Text>
 
-                  <View
-                    style={styles.contactDetails}
-                  >
+                  <View style={styles.contactDetails}>
                     <Feather name="phone" size={20} color="black" />
                     <Text style={[styles.parentDetail, { marginLeft: 6 }]}>
                       {user?.phone}
@@ -106,8 +113,16 @@ const styles = StyleSheet.create({
   },
 
   childSection: {
-    width: "100%",
     alignItems: "center",
+    width: "85%",
+    backgroundColor: Colors.primaryWhite,
+    borderRadius: 20,
+    padding: 8,
+    margin: 10,
+    shadowColor: Colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
 
   avatar: {
@@ -125,6 +140,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
+
   avatarLetter: {
     color: Colors.primaryWhite,
     fontSize: FontSizes.H1,
@@ -134,13 +150,14 @@ const styles = StyleSheet.create({
     fontSize: FontSizes.H2,
     marginBottom: 8,
     color: Colors.primaryBlack,
+    alignSelf: "center",
   },
 
   checkStatus: {
     paddingVertical: 5,
     paddingHorizontal: 20,
     borderRadius: 20,
-    marginBottom: 25,
+    marginBottom: 12,
   },
 
   checkedIn: {
@@ -190,9 +207,27 @@ const styles = StyleSheet.create({
     color: Colors.darkGray,
     marginBottom: 5,
   },
+
   contactDetails: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 5,
+  },
+
+  childDetailContainer: {
+    backgroundColor: Colors.variationWhite,
+    padding: 15,
+    borderRadius: 15,
+    width: "90%",
+    margin: 12,
+  },
+
+  childInformationTitle: {
+    fontWeight: "bold",
+  },
+
+  childInformationWrapper: {
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
