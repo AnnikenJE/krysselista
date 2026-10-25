@@ -6,6 +6,10 @@ A cross-platform attendance app for kindergartens. Parents register their childr
 
 Built to demonstrate an agile development process for a university course, not as a finished product. Some features are partially wired up.
 
+## Background
+
+Originally built as the exam project for **Agile Project (7.5 ECTS)**, Kristiania University College, graded **A**.
+
 ## Features
 
 - **Roles:** sign up as a parent or an employee; the tab bar and home screen adapt to the role
@@ -64,7 +68,3 @@ npm run ios      # run on iOS
 npm run web      # run in the browser
 npm run lint     # ESLint
 ```
-
-## Background
-
-Originally built as the exam project for **Agile Project (7.5 ECTS)**, Kristiania University College, graded **A**.
